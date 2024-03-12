@@ -1,0 +1,9 @@
+VT Enterprises Consulting Services
+Copyright 2024 Bradford G. Van Treuren
+
+This product includes software developed at
+VT Enterprises Consulting Services (http://bradfordvt.github.io/portfolio/VTEnterprises/).
+
+The Initial Developer of some parts of the framework, which are copied from, derived from, or
+inspired by Bradford G. Van Treuren (via P2654Model2).
+Copyright 2021   Bradford G. Van Treuren. All Rights Reserved.

@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# bin executables
+bin/*
+build/*
+
+# swp files
+*.swp
+
+# misc
+*.un~

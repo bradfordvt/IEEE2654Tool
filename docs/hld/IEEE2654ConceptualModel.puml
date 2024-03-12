@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam monochrome true
+
+class Translator
+class Channel
+interface HostIF
+interface ClientIF
+abstract TransformLibrary
+abstract InjectLibrary
+abstract CommandLibrary
+abstract DebugLibrary
+struct translator_transform_api
+struct transform_library_api
+struct transform_instance
+struct translator_inject_api
+struct inject_library_api
+struct inject_instance
+struct translator_command_api
+struct command_library_api
+struct command_instance
+struct translator_debug_api
+struct debug_library_api
+struct debug_instance
+
+Translator "1" <-- "many" HostIF : handles
+Translator "1" --> "1" ClientIF : requests
+HostIF "1" <-- "1" Channel : transmits
+ClientIF "1" --> "1" Channel : transmits
+Translator "1" --> "1" transform_library_api : access
+transform_library_api "1" --> "1" TransformLibrary : access
+TransformLibrary "1" --> "1" translator_transform_api : responds
+translator_transform_api "1" --> "1" Translator : responds
+Translator "1" --> "1" inject_library_api : access
+inject_library_api "1" --> "1" InjectLibrary : access
+InjectLibrary "1" --> "1" translator_inject_api : responds
+translator_inject_api "1" --> "1" Translator : responds
+Translator "1" --> "1" command_library_api : access
+command_library_api "1" --> "1" CommandLibrary : access
+CommandLibrary "1" --> "1" translator_command_api : responds
+translator_command_api "1" --> "1" Translator : responds
+Translator "1" --> "1" debug_library_api : access
+debug_library_api "1" --> "1" DebugLibrary : access
+DebugLibrary "1" --> "1" translator_debug_api : responds
+translator_debug_api "1" --> "1" Translator : responds
+Translator -- transform_instance : shares
+Translator -- inject_instance : shares
+Translator -- command_instance : shares
+Translator -- debug_instance : shares
+TransformLibrary -- transform_instance : shares
+InjectLibrary -- inject_instance : shares
+CommandLibrary -- command_instance : shares
+DebugLibrary -- debug_instance : shares
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml
