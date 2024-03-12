@@ -41,3 +41,4 @@ build/*
 # misc
 *.un~
 !bin/README.md
+!build/README.md
