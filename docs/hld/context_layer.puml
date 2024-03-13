@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam monochrome true
+
+object Translator
+object TransformLibrary
+object InjectLibrary
+object CommandLibrary
+object DebugLibrary
+
+TransformLibrary <-u-> Translator : transform_send_request()\nsend_response()\n====\nhandle_request()\nhandle_response()
+InjectLibrary <-u-> Translator : inject_send_request()\nupdate_request()\nsend_update_response()\nsend_inject_response()\n====\nhandle_request()\nhandle_inject_request()\nhandle_response()\nhandle_update_response()
+CommandLibrary <-u-> Translator : send_inject_request()\nsend_command_response()\n====\nhandle_command_request()\nhandle_inject_response()
+DebugLibrary <-u-> Translator : ====\nsend_request()\nsend_response()\nhandle_request()\nhandle_response()\nupdate_request()\nsend_update_response()\nsend_inject_response()\nhandle_inject_request()\nhandle_update_response()\nsend_inject_request()\nsend_command_response()\nhandle_command_request()\nhandle_inject_response()
+@enduml

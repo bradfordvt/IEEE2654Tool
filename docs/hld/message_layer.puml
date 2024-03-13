@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam monochrome true
+
+object ControllerTranslator
+object IntermediateTranslator
+object LeafTranslator
+
+together {
+    interface Client1
+    object Channel1
+    interface Host2
+}
+together {
+    interface Host3
+    object Channel2
+    interface Client2
+}
+
+Client1 <-u-> LeafTranslator : handle_response()\nsend_request()
+Channel1 <-u-> Client1 : handle_response()\nsend_request()
+Host2 <-d-> Channel1 : handle_request()\nsend_response()
+IntermediateTranslator <-d-> Host2 : handle_request()\nsend_response()
+Client2 <-u-> IntermediateTranslator : handle_response()\nsend_request()
+Channel2 <-u-> Client2 : handle_response()\nsend_request()
+Host3 <-d-> Channel2 : handle_request()\nsend_response()
+ControllerTranslator <-d-> Host3 : handle_request()\nsend_response()
+@enduml
