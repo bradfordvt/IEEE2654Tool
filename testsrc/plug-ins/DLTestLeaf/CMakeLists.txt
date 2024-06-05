@@ -24,4 +24,4 @@ set( IEEE2654ToolDLTestLeafTest_SRCS
 
 add_executable( DLTestLeaf_test ${IEEE2654ToolDLTestLeafTest_SRCS} )
 target_link_libraries(DLTestLeaf_test theapplibs cppunit)
-add_test(DLTestLeaf_test ${EXECUTABLE_OUTTLTESTPUT_PATH}/DLTestLeaf_test)
+add_test(DLTestLeaf_test ${EXECUTABLE_OUTPUT_PATH}/DLTestLeaf_test)

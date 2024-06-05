@@ -24,4 +24,4 @@ set( IEEE2654ToolDLTestIntermediateTest_SRCS
 
 add_executable( DLTestIntermediate_test ${IEEE2654ToolDLTestIntermediateTest_SRCS} )
 target_link_libraries(DLTestIntermediate_test theapplibs cppunit)
-add_test(DLTestIntermediate_test ${EXECUTABLE_OUTTLTESTPUT_PATH}/DLTestIntermediate_test)
+add_test(DLTestIntermediate_test ${EXECUTABLE_OUTPUT_PATH}/DLTestIntermediate_test)

@@ -24,4 +24,4 @@ set( IEEE2654ToolDLTestControllerTest_SRCS
 
 add_executable( DLTestController_test ${IEEE2654ToolDLTestControllerTest_SRCS} )
 target_link_libraries(DLTestController_test theapplibs cppunit)
-add_test(DLTestController_test ${EXECUTABLE_OUTTLTESTPUT_PATH}/DLTestController_test)
+add_test(DLTestController_test ${EXECUTABLE_OUTPUT_PATH}/DLTestController_test)
