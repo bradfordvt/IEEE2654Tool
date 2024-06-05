@@ -35,6 +35,10 @@
 bin/*
 build/*
 
+# generated files
+prodsrc/protodef/generated/*.h
+prodsrc/protodef/generated/*.cc
+
 # swp files
 *.swp
 
@@ -43,3 +47,5 @@ build/*
 *.backup
 !bin/README.md
 !build/README.md
+/prodsrc/plug-ins/TLTestIntermediate/foo
+/binREADME.md

@@ -39,6 +39,7 @@ static const char __status__[] = "Alpha/Experimental";
 static const char __version__[] = "0.0.1";
 
 #include <stdexcept>
+#include <iostream>
 #include <string.h>
 
 #include "model/Translator.hpp"
@@ -67,7 +68,7 @@ Translator* Translator::find_translator_by_uid(uint32_t uid) {
 	return NULL;
 }
 
-Translator* Translator:: find_translator_by_path(const char* path) {
+Translator* Translator::find_translator_by_path(const char* path) {
 	auto p = begin(Translator::path_list);
 	auto t = begin(Translator::translator_list);
 	for( ; p != end(Translator::path_list); ++p, ++t ) {
@@ -313,24 +314,55 @@ int Translator::send_update_response( struct inject_instance* inst, uint32_t uid
 	}
 }
 
-int Translator::logger_transform( struct transform_instance* inst, const char* message ) {
-
+int Translator::logger_transform( struct transform_instance* inst, log_severity severity, const char* message ) {
+	Translator* t_p = __lookup_translator(inst->translator_uid);
+	if(t_p != NULL) {
+		return t_p->__logger(severity, message);
+	}
+	else {
+		return -1;
+	}
 }
 
-int Translator::logger_inject( struct inject_instance* inst, const char* message ) {
-
+int Translator::logger_inject( struct inject_instance* inst, log_severity severity, const char* message ) {
+	Translator* t_p = __lookup_translator(inst->translator_uid);
+	if(t_p != NULL) {
+		return t_p->__logger(severity, message);
+	}
+	else {
+		return -1;
+	}
 }
 
-int Translator::logger_debug( struct debug_instance* inst, const char* message ) {
-
+int Translator::logger_debug( struct debug_instance* inst, log_severity severity, const char* message ) {
+	Translator* t_p = __lookup_translator(inst->translator_uid);
+	if(t_p != NULL) {
+		return t_p->__logger(severity, message);
+	}
+	else {
+		return -1;
+	}
 }
 
-int Translator::logger_command( struct command_instance* inst, const char* message ) {
-
+int Translator::logger_command( struct command_instance* inst, log_severity severity, const char* message ) {
+	Translator* t_p = __lookup_translator(inst->translator_uid);
+	if(t_p != NULL) {
+		return t_p->__logger(severity, message);
+	}
+	else {
+		return -1;
+	}
 }
 
 const char* Translator::__get_path() {
-
+	auto u = begin(Translator::uid_list);
+	auto p = begin(Translator::path_list);
+	for( ; u != end(Translator::uid_list); ++p, ++u ) {
+		if(*u == t_uid) {
+			return *p;
+		}
+	}
+	return NULL;
 }
 
 const char* Translator::get_transform_path( struct transform_instance* inst ) {
@@ -374,19 +406,19 @@ const char* Translator::get_command_path( struct command_instance* inst ) {
 }
 
 int Translator::create_var( const char* json_message ) {
-
+	return 0;
 }
 
 const char* Translator::read_var( const char* json_message ) {
-
+	return "";
 }
 
 int Translator::update_var( const char* json_message ) {
-
+	return 0;
 }
 
 int Translator::delete_var( const char* json_message ) {
-
+	return 0;
 }
 
 int Translator::handle_request( uint32_t uid, size_t len, uint8_t* message ) {
@@ -444,5 +476,28 @@ HostAPI* Translator::__lookup_host(uint32_t uid) {
 	}
 	catch (const std::out_of_range& oor) {
 		return NULL;
+	}
+}
+
+int Translator::__logger( log_severity severity, const char* message ) {
+	if(severity == FATAL) {
+		std::cerr << "FATAL: " << message;
+		return 0;
+	}
+	else if(severity == ERROR) {
+		std::cerr << "ERROR: " << message;
+		return 0;
+	}
+	else if(severity == DEBUG) {
+		std::cout << "DEBUG: " << message;
+		return 0;
+	}
+	else if(severity == INFO) {
+		std::cout << "INFO: " << message;
+		return 0;
+	}
+	else {
+		std::cerr << "UNKNOWN: " << message;
+		return -1;
 	}
 }

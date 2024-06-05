@@ -12,5 +12,7 @@ message(STATUS "IEEE2654Tool_SOURCE_DIR = ${IEEE2654Tool_SOURCE_DIR}")
 # set( CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin )
 # set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR} )
 
+add_subdirectory( protodef )
 add_subdirectory( llb )
 add_subdirectory( app )
+add_subdirectory( plug-ins )

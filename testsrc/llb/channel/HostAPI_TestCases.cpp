@@ -46,6 +46,7 @@ HostAPI_TestCases::HostAPI_TestCases( const HostAPI_TestCases& tc ) : CPPUNIT_NS
 }
 
 HostAPI_TestCases& HostAPI_TestCases::operator=( const HostAPI_TestCases& tc ) {
+	return *this;
 }
 
 void HostAPI_TestCases::setUp( ) {

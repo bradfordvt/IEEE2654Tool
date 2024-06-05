@@ -11,6 +11,7 @@ include_directories( ${IEEE2654Tool_SOURCE_DIR}/testsrc/include )
 # Build the sub-directories
 add_subdirectory( app )
 add_subdirectory( llb )
+add_subdirectory( plug-ins )
 
 # Usefull to get CPPUNIT ...
 # I would love to find a way to have cppunit

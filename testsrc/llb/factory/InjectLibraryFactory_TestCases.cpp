@@ -46,6 +46,7 @@ InjectLibraryFactory_TestCases::InjectLibraryFactory_TestCases( const InjectLibr
 }
 
 InjectLibraryFactory_TestCases& InjectLibraryFactory_TestCases::operator=( const InjectLibraryFactory_TestCases& tc ) {
+	return *this;
 }
 
 void InjectLibraryFactory_TestCases::setUp( ) {

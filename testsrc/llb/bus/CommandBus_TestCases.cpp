@@ -46,6 +46,7 @@ CommandBus_TestCases::CommandBus_TestCases( const CommandBus_TestCases& tc ) : C
 }
 
 CommandBus_TestCases& CommandBus_TestCases::operator=( const CommandBus_TestCases& tc ) {
+	return *this;
 }
 
 void CommandBus_TestCases::setUp( ) {

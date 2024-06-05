@@ -46,6 +46,7 @@ DebugLibraryFactory_TestCases::DebugLibraryFactory_TestCases( const DebugLibrary
 }
 
 DebugLibraryFactory_TestCases& DebugLibraryFactory_TestCases::operator=( const DebugLibraryFactory_TestCases& tc ) {
+	return *this;
 }
 
 void DebugLibraryFactory_TestCases::setUp( ) {

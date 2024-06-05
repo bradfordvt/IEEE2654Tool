@@ -46,6 +46,7 @@ CommandLibraryFactory_TestCases::CommandLibraryFactory_TestCases( const CommandL
 }
 
 CommandLibraryFactory_TestCases& CommandLibraryFactory_TestCases::operator=( const CommandLibraryFactory_TestCases& tc ) {
+	return *this;
 }
 
 void CommandLibraryFactory_TestCases::setUp( ) {

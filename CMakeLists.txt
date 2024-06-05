@@ -24,28 +24,17 @@ set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR} )
 message(STATUS "IEEE2654Tool_SOURCE_DIR = ${IEEE2654Tool_SOURCE_DIR}")
 
 include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/include" )
+include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef" )
+include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef/generated" )
 enable_testing()
 add_subdirectory( prodsrc )
 add_subdirectory( testsrc )
-# include_directories( "${CMAKE_SOURCE_DIR}/prodsrc/include" )
 
-# Link the sources with the final binary. The name of the binary
-# is going to be "IEEE2654Tool"
-# add_executable( IEEE2654Tool ${IEEE2654Tool_SRCS} ${IEEE2654Tool_HEADERS} )
-
-# If the flag DEBUG_MODE is set, build the test file
-# if( DEBUG_MODE )
-# 
-# add_subdirectory( testsrc )
-# # set( IEEE2654TOOL_TEST_SRCS IEEE2654ToolTest.cpp )
-# # add_executable( IEEE2654Tool_test ${IEEE2654Tool_TEST_SRCS} ${IEEE2654Tool_HEADERS} )
-# 
-# endif()
-
-add_library(theapplibs
-        $<TARGET_OBJECTS:IEEE2654ToolBus>
-        $<TARGET_OBJECTS:IEEE2654ToolChannel>
-        $<TARGET_OBJECTS:IEEE2654ToolFactory>
-        $<TARGET_OBJECTS:IEEE2654ToolLog>
-        $<TARGET_OBJECTS:IEEE2654ToolModel>)
+add_library(theapplibs STATIC
+	$<TARGET_OBJECTS:IEEE2654ToolBus>
+	$<TARGET_OBJECTS:IEEE2654ToolChannel>
+	$<TARGET_OBJECTS:IEEE2654ToolFactory>
+	$<TARGET_OBJECTS:IEEE2654ToolLog>
+	$<TARGET_OBJECTS:IEEE2654ToolModel>
+	$<TARGET_OBJECTS:protoBinding>)
 

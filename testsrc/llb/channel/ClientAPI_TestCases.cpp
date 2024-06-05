@@ -46,6 +46,7 @@ ClientAPI_TestCases::ClientAPI_TestCases( const ClientAPI_TestCases& tc ) : CPPU
 }
 
 ClientAPI_TestCases& ClientAPI_TestCases::operator=( const ClientAPI_TestCases& tc ) {
+	return *this;
 }
 
 void ClientAPI_TestCases::setUp( ) {

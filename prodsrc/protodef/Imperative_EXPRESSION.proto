@@ -1,0 +1,11 @@
+syntax = "proto3";
+package Imperative_EXPRESSION;
+
+message EXPR {
+  uint32 uid = 1;
+  string operand1 = 2;
+  string operand2 = 3;
+  string op = 4;
+  string term = 5;
+  string result = 6;
+};

@@ -55,17 +55,17 @@ typedef struct debug_library_api {
 	int (*select)( struct debug_instance* inst, uint32_t index );
 	int (*deselect)( struct debug_instance* inst, uint32_t index );
 	bool (*is_selected)( struct debug_instance* inst, uint32_t uid );
-	enum translator_error_code (*get_error_code)( struct debug_instance* inst );
-	const char* (*get_error_string)( struct debug_instance* inst );
-	enum translator_status (*get_status_code)( struct debug_instance* inst );
-	const char* (*get_status_string)( struct debug_instance* inst );
+	enum translator_error_code (*get_error_code)( struct debug_instance* inst, translator_error_code code );
+	const char* (*get_error_string)( struct debug_instance* inst, translator_error_code code );
+	enum translator_status (*get_status_code)( struct debug_instance* inst, translator_status code );
+	const char* (*get_status_string)( struct debug_instance* inst, translator_status code );
 	int (*handle_request)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*handle_response)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*handle_update_request)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*handle_update_response)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*handle_inject_request)( struct debug_instance* inst, size_t len, uint8_t* message );
-	int (*handle_command_request)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*handle_inject_response)( struct debug_instance* inst, size_t len, uint8_t* message );
+	int (*handle_command_request)( struct debug_instance* inst, size_t len, uint8_t* message );
 	int (*apply)( struct debug_instance* inst );
 } debug_library_api;
 

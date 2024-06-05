@@ -46,6 +46,7 @@ Translator_TestCases::Translator_TestCases( const Translator_TestCases& tc ) : C
 }
 
 Translator_TestCases& Translator_TestCases::operator=( const Translator_TestCases& tc ) {
+	return *this;
 }
 
 void Translator_TestCases::setUp( ) {

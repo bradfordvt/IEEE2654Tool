@@ -46,6 +46,7 @@ Logger_TestCases::Logger_TestCases( const Logger_TestCases& tc ) : CPPUNIT_NS::T
 }
 
 Logger_TestCases& Logger_TestCases::operator=( const Logger_TestCases& tc ) {
+	return *this;
 }
 
 void Logger_TestCases::setUp( ) {

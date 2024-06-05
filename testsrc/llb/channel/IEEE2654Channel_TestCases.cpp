@@ -46,6 +46,7 @@ IEEE2654Channel_TestCases::IEEE2654Channel_TestCases( const IEEE2654Channel_Test
 }
 
 IEEE2654Channel_TestCases& IEEE2654Channel_TestCases::operator=( const IEEE2654Channel_TestCases& tc ) {
+	return *this;
 }
 
 void IEEE2654Channel_TestCases::setUp( ) {

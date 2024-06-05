@@ -40,6 +40,7 @@ static const char __status__[] = "Alpha/Experimental";
 static const char __version__[] = "0.0.1";
 
 #include "bus/CommandBus.hpp"
+#include "model/Translator.hpp"
 
 CommandBus* CommandBus::inst = NULL;
 
@@ -72,33 +73,36 @@ CommandBus::CommandBus(CommandBus &&other) {
 
 CommandBus& CommandBus::operator=(const CommandBus &other) {
 	// TODO Auto-generated method stub
-
+	return *this;
 }
 
 CommandBus& CommandBus::operator=(CommandBus &&other) {
 	// TODO Auto-generated method stub
-
+	return *this;
 }
 
-int CommandBus::send_command_request(const char* target, size_t len, uint8_t* message) {
+int CommandBus::send_command_request(command_response_handler_callback cb, const char* target, size_t len, uint8_t* message) {
+	cback = cb;
 	return handle_command_request(target, len, message);
 }
 
 int CommandBus::handle_command_request(const char* target, size_t len, uint8_t* message) {
 	Translator* t_p = __find_target(target);
 	if(t_p != NULL) {
-		t_p->handle_command_request(len, message);
+		return t_p->handle_command_request(len, message);
 	}
+	return -1;
 }
 
 int CommandBus::send_command_response(const char* target, size_t len, uint8_t* message) {
-
+	return handle_command_response(target, len, message);
 }
 
 int CommandBus::handle_command_response(const char* target, size_t len, uint8_t* message) {
-
+	return cback(target, len, message);
 }
 
 Translator* CommandBus::__find_target(const char* target) {
-
+	Translator* t_p = Translator::find_translator_by_path(target);
+	return t_p;
 }

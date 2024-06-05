@@ -65,7 +65,15 @@ enum translator_error_code
 	translator_response_destination,
 	translator_no_memory,
 	translator_message_order,
+	translator_unsupported_feature,
 	translator_error
+};
+
+enum log_severity {
+	FATAL,
+	ERROR,
+	DEBUG,
+	INFO
 };
 
 extern const char* translator_error_strings[];
@@ -74,7 +82,7 @@ typedef struct translator_transform_api {
 	int translator; /* index in table to the translator host for the interface */
 	int (*send_request)( struct transform_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	int (*send_response)( struct transform_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	int (*logger)( struct transform_instance* inst, const char* message );
+	int (*logger)( struct transform_instance* inst, log_severity severity, const char* message );
 	const char* (*get_path)( struct transform_instance* inst );
 	int (*create_var)( const char* json_message );
 	const char* (*read_var)( const char* json_message );
@@ -84,7 +92,7 @@ typedef struct translator_transform_api {
 
 typedef struct translator_debug_api {
 	int translator; /* index in table to the translator host for the interface */
-	int (*logger)( struct debug_instance* inst, const char* message );
+	int (*logger)( struct debug_instance* inst, log_severity severity, const char* message );
 	const char* (*get_path)( struct debug_instance* inst );
 	int (*create_var)( const char* json_message );
 	const char* (*read_var)( const char* json_message );
@@ -98,7 +106,7 @@ typedef struct translator_inject_api {
 	int (*update_request)( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	int (*send_update_response)( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	int (*send_inject_response)( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	int (*logger)( struct inject_instance* inst, const char* message );
+	int (*logger)( struct inject_instance* inst, log_severity severity, const char* message );
 	const char* (*get_path)( struct inject_instance* inst );
 	int (*create_var)( const char* json_message );
 	const char* (*read_var)( const char* json_message );
@@ -110,7 +118,7 @@ typedef struct translator_command_api {
 	int translator; /* index in table to the translator host for the interface */
 	int (*send_inject_request)( struct command_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	int (*send_command_response)( struct command_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	int (*logger)( struct command_instance* inst, const char* message );
+	int (*logger)( struct command_instance* inst, log_severity severity, const char* message );
 	const char* (*get_path)( struct command_instance* inst );
 	int (*create_var)( const char* json_message );
 	const char* (*read_var)( const char* json_message );

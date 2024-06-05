@@ -46,6 +46,7 @@ TransformLibraryFactory_TestCases::TransformLibraryFactory_TestCases( const Tran
 }
 
 TransformLibraryFactory_TestCases& TransformLibraryFactory_TestCases::operator=( const TransformLibraryFactory_TestCases& tc ) {
+	return *this;
 }
 
 void TransformLibraryFactory_TestCases::setUp( ) {

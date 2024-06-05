@@ -65,10 +65,10 @@ public:
 	static int update_request( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_response( struct transform_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_update_response( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	static int logger_transform( struct transform_instance* inst, const char* message );
-	static int logger_inject( struct inject_instance* inst, const char* message );
-	static int logger_debug( struct debug_instance* inst, const char* message );
-	static int logger_command( struct command_instance* inst, const char* message );
+	static int logger_transform( struct transform_instance* inst, log_severity severity, const char* message );
+	static int logger_inject( struct inject_instance* inst, log_severity severity, const char* message );
+	static int logger_debug( struct debug_instance* inst, log_severity severity, const char* message );
+	static int logger_command( struct command_instance* inst, log_severity severity, const char* message );
 	static int create_var( const char* json_message );
 	static const char* read_var( const char* json_message );
 	static int update_var( const char* json_message );
@@ -98,6 +98,7 @@ private:
 	static Translator* __lookup_translator(uint32_t translator_uid);
 	HostAPI* __lookup_host(uint32_t uid);
 	const char* __get_path();
+	int __logger(log_severity severity, const char* message);
 
 	static uint32_t translator_count;
 	static CommandBus* cmd_bus;

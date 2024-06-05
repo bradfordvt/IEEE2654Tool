@@ -1,0 +1,7 @@
+syntax = "proto3";
+package COMMAND;
+
+message PRESS {
+  uint32 uid = 1;
+  string function = 2;
+};

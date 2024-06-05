@@ -1,0 +1,22 @@
+syntax = "proto3";
+package IEEE2654;
+
+enum IEEE2654Type {
+  REQUEST = 0;
+  RESPONSE = 1;
+  OTHER = 2;
+};
+
+message IEEE2654Message {
+  uint32 UID = 1;
+  IEEE2654Type message_type = 2;
+  string metaname = 3;
+  bytes serialized = 4;
+};
+
+message IEEE2654Error {
+  uint32 UID = 1;
+  string message = 2;
+  uint32 code = 3;
+};
+
