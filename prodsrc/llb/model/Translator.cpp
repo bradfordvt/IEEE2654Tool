@@ -199,6 +199,29 @@ Translator::Translator(const char* path, const char* tlibbase, const char* dlibb
 
 }
 
+Translator::~Translator() {
+	if(tlib_handle != NULL) {
+		TransformLibraryFactory tlf;
+		int ret = tlf.free_handle(tlib_handle);
+		tlib_handle = NULL;
+	}
+	if(dlib_handle != NULL) {
+		DebugLibraryFactory dlf;
+		int ret = dlf.free_handle(dlib_handle);
+		dlib_handle = NULL;
+	}
+	if(ilib_handle != NULL) {
+		InjectLibraryFactory ilf;
+		int ret = ilf.free_handle(ilib_handle);
+		ilib_handle = NULL;
+	}
+	if(clib_handle != NULL) {
+		CommandLibraryFactory clf;
+		int ret = clf.free_handle(clib_handle);
+		clib_handle = NULL;
+	}
+}
+
 int Translator::set_client(uint32_t uid, ClientAPI& client) {
 	client_p = &client;
 	return 0;
