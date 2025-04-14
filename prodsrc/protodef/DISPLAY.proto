@@ -1,0 +1,14 @@
+syntax = "proto3";
+package DISPLAY;
+option optimize_for = LITE_RUNTIME;
+
+message SHOW {
+  uint32 uid = 1;
+  string value = 2;
+};
+
+message READ {
+  uint32 uid = 1;
+  string value = 2;
+};
+

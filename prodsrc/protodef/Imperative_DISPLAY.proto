@@ -1,0 +1,10 @@
+syntax = "proto3";
+package Imperative_DISPLAY;
+option optimize_for = LITE_RUNTIME;
+
+message DISPLAY {
+  uint32 uid = 1;
+  string function = 2;
+  string value = 3;
+};
+
