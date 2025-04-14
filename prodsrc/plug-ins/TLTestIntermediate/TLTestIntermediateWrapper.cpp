@@ -33,6 +33,7 @@ static const char __version__[] = "0.0.1";
 #include <stdlib.h>
 #include "api/transform_library_api.h"
 #include "TLTestIntermediate.hpp"
+#include <iostream>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,11 +41,13 @@ extern "C" {
 
 #define MY_THIS(inst, ret) if(inst == NULL)\
 	{\
+		std::cerr << "inst is NULL" << std::endl;\
 		return ret;\
 	}\
 	TLTestIntermediate* my_this = (TLTestIntermediate*)(inst->private_data);\
 	if(my_this == NULL)\
 	{\
+		std::cerr << "my_this is NULL" << std::endl;\
 		inst->error_code = translator_error;\
 		inst->status_code = translator_broken;\
 		return ret;\
@@ -52,12 +55,15 @@ extern "C" {
 
 #define TEST_MY_THIS() TLTestIntermediate* my_this = (TLTestIntermediate*)(inst->private_data);\
 	if(my_this == NULL) {\
+		std::cerr << "my_this is NULL" << std::endl;\
 		my_this = new TLTestIntermediate();\
 		if(my_this == NULL) {\
+			std::cerr << "my_this did not allocate space" << std::endl;\
 			inst->error_code = translator_error;\
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 transform_instance* get_transform_instance( int translator_uid )
@@ -70,7 +76,7 @@ transform_instance* get_transform_instance( int translator_uid )
 	return inst;
 }
 
-int open( struct transform_instance* inst, struct translator_transform_api* tt_api )
+int my_open( struct transform_instance* inst, struct translator_transform_api* tt_api )
 {
 	TEST_MY_THIS()
 	return my_this->open(inst, tt_api);
@@ -84,7 +90,9 @@ int my_close( struct transform_instance* inst )
 
 int config( struct transform_instance* inst, char* json_message )
 {
+	std::cerr << "Entering TLTestIntermediateWrapper::config()" << std::endl;
 	MY_THIS(inst, -1)
+	std::cerr << "Calling TLTestIntermediate::config()" << std::endl;
 	return my_this->config(json_message);
 }
 
@@ -132,7 +140,9 @@ const char* get_status_string( struct transform_instance* inst )
 
 int handle_request( struct transform_instance* inst, size_t len, uint8_t* message )
 {
+	std::cerr << "Entering wrapper for TLTestIntermediate::handle_request()" << std::endl;
 	MY_THIS(inst, -1)
+	std::cerr << "Calling TLTestIntermediate::handle_request()" << std::endl;
 	return my_this->handle_request(len, message);
 }
 
@@ -153,8 +163,9 @@ static transform_library_api tla = {
 	.name = "TLTestIntermediate",
 	.name_space = "Test",
 	.get_transform_instance = get_transform_instance,
-	.open = open,
+	.open = my_open,
 	.close = my_close,
+	.config = config,
 	.select = my_select,
 	.deselect = deselect,
 	.is_selected = is_selected,

@@ -1,5 +1,6 @@
 syntax = "proto3";
 package Imperative_EXPRESSION;
+option optimize_for = LITE_RUNTIME;
 
 message EXPR {
   uint32 uid = 1;

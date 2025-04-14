@@ -6,6 +6,34 @@ cmake_minimum_required( VERSION 3.10 )
 # Workspace is IEEE2654Tool
 project( IEEE2654Tool VERSION 0.0.1 LANGUAGES CXX )
 
+set(CMAKE_DEBUG_POSTFIX d)
+set(PROJECT_NAMESPACE IEEE2654)
+add_library(ieee2654_compiler_flags INTERFACE)
+target_compile_features(ieee2654_compiler_flags INTERFACE cxx_std_11)
+
+# add compiler warning flags just when building this project via
+# the BUILD_INTERFACE genex
+set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
+set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+# if(CMAKE_BUILD_TYPE EQUAL "Debug")
+# target_compile_options(ieee2654_compiler_flags INTERFACE
+# 	"$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused -DDEBUG -DUSE_SWDEBUG>>"
+# 	"$<${msvc_cxx}:$<BUILD_INTERFACE:-W3 -DUSE_SWDEBUG -DDEBUG>>"
+# )
+# else()
+# target_compile_options(ieee2654_compiler_flags INTERFACE
+#   "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
+#   "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+# )
+# endif()
+add_compile_options(
+	"$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
+	"$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+	"$<$<CONFIG:DEBUG>:-O0;-g3;-ggdb;-DUSE_SWDEBUG>"
+)
+message(STATUS "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS_DEBUG = ${CMAKE_CXX_FLAGS_DEBUG}")
+
 # Set the directory where bin will be built.
 set( CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin )
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR} )
@@ -26,9 +54,11 @@ message(STATUS "IEEE2654Tool_SOURCE_DIR = ${IEEE2654Tool_SOURCE_DIR}")
 include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/include" )
 include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef" )
 include_directories( "${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef/generated" )
-enable_testing()
+# enable_testing()
+include( CTest )
 add_subdirectory( prodsrc )
 add_subdirectory( testsrc )
+# add_subdirectory( python )
 
 add_library(theapplibs STATIC
 	$<TARGET_OBJECTS:IEEE2654ToolBus>
@@ -36,5 +66,12 @@ add_library(theapplibs STATIC
 	$<TARGET_OBJECTS:IEEE2654ToolFactory>
 	$<TARGET_OBJECTS:IEEE2654ToolLog>
 	$<TARGET_OBJECTS:IEEE2654ToolModel>
-	$<TARGET_OBJECTS:protoBinding>)
+	$<TARGET_OBJECTS:IEEE2654ToolParser>
+	$<TARGET_OBJECTS:IEEE2654ToolRepository>
+	$<TARGET_OBJECTS:IEEE2654ToolWrapper>
+	$<TARGET_OBJECTS:IEEE2654ToolBuilder>
+	$<TARGET_OBJECTS:IEEE2654ToolDSL>
+	$<TARGET_OBJECTS:IEEE2654ToolDebug>
+	$<TARGET_OBJECTS:protoBinding>
+	)
 

@@ -58,6 +58,7 @@ extern "C" {
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 debug_instance* get_debug_instance( int translator_uid )
@@ -70,7 +71,7 @@ debug_instance* get_debug_instance( int translator_uid )
 	return inst;
 }
 
-int open( struct debug_instance* inst, struct translator_debug_api* td_api )
+int my_open( struct debug_instance* inst, struct translator_debug_api* td_api )
 {
 	TEST_MY_THIS()
 	return my_this->open(inst, td_api);
@@ -183,8 +184,9 @@ static debug_library_api dla = {
 	.name = "DLTestController",
 	.name_space = "Test",
 	.get_debug_instance = get_debug_instance,
-	.open = open,
+	.open = my_open,
 	.close = my_close,
+	.config = config,
 	.select = my_select,
 	.deselect = deselect,
 	.is_selected = is_selected,

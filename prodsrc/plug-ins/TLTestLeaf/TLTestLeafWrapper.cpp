@@ -33,10 +33,16 @@ static const char __version__[] = "0.0.1";
 #include <stdlib.h>
 #include "api/transform_library_api.h"
 #include "TLTestLeaf.hpp"
+#include <iostream>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+		// std::cerr << "inst is NULL" << std::endl;
+		// std::cerr << "my_this is NULL" << std::endl;
+		// std::cerr << "my_this is NULL" << std::endl;
+			// std::cerr << "my_this did not allocate space" << std::endl;
 
 #if 1
 #define MY_THIS(inst, ret) if(inst == NULL)\
@@ -64,6 +70,7 @@ extern "C" {
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 transform_instance* get_transform_instance( int translator_uid )
@@ -76,13 +83,15 @@ transform_instance* get_transform_instance( int translator_uid )
 	return inst;
 }
 
-int open( struct transform_instance* inst, struct translator_transform_api* tt_api )
+int my_open( struct transform_instance* inst, struct translator_transform_api* tt_api )
 {
+	// std::cerr << "Entering TLTestLeafWrapper::open()" << std::endl;
 	TEST_MY_THIS()
+	// std::cerr << "Exiting TLTestLeafWrapper::open()" << std::endl;
 	return my_this->open(inst, tt_api);
 }
 
-int close( struct transform_instance* inst )
+int my_close( struct transform_instance* inst )
 {
 	MY_THIS(inst, -1);
 	return my_this->close();
@@ -90,7 +99,9 @@ int close( struct transform_instance* inst )
 
 int config( struct transform_instance* inst, char* json_message )
 {
+	// std::cerr << "Entering TLTestLeafWrapper::config()" << std::endl;
 	MY_THIS(inst, -1);
+	// std::cerr << "Exiting TLTestLeafWrapper::config()" << std::endl;
 	return my_this->config(json_message);
 }
 
@@ -160,8 +171,9 @@ static transform_library_api tla = {
 	.name = "TLTestLeaf",
 	.name_space = "Test",
 	.get_transform_instance = get_transform_instance,
-	.open = open,
-	.close = close,
+	.open = my_open,
+	.close = my_close,
+	.config = config,
 	.select = my_select,
 	.deselect = deselect,
 	.is_selected = is_selected,

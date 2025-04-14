@@ -28,27 +28,60 @@ $  sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ jammy main'
 $ sudo apt update
 $ sudo apt install cmake
 $ sudo apt install protobuf-compiler
+$ sudo apt install libpython3.10-dev
+$ sudo apt-get install swig
 ```
 #### Generating CMake Framework Build
 Change to the build sub-directory of the project.
 ```bash
-$ cd build
+$ cd build/debug
+$ cmake -DCMAKE_BUILD_TYPE=Debug ../..
+$ cmake --build .
+$ cd ../release
+$ cmake -DCMAKE_BUILD_TYPE=Release ../..
+$ cmake --build .
 ```
 Purge the current build framework.
 ```bash
+$ cd build/debug
+$ rm -rf *
+$ cd ../release
 $ rm -rf *
 ```
 Generate the build framework using the CMakeList.txt directives.
 ```bash
-$ cmake ..
+$ cd build/debug
+$ cmake -DCMAKE_BUILD_TYPE=Debug ../..
+$ cd ../release
+$ cmake -DCMAKE_BUILD_TYPE=Release ../..
 ```
 #### Building the Project
-Make sure you are in the build sub-directory of the project (where you generated the build framework).
+Make sure you are in the build/debug
+and build/release sub-directories of the project (where you generated the build framework).
 
 Call the build system to actually compile/link the project.
 ```bash
+$ cd build/debug
+$ cmake -DCMAKE_BUILD_TYPE=Debug ../..
+$ cmake --build . --config debug
+$ cd ../release
+$ cmake -DCMAKE_BUILD_TYPE=Release ../..
 $ cmake --build .
 ```
 The final executables shall reside in the project bin sub-directory.
+#### Setting up the environment for testing and running
+##### Environment variables
+```bash
+$ export IEEE2654MODULES=~/VisualStudioCode/IEEE2654Tool/examples/model/tree
+$ export IEEE2654PLUGINS=~/VisualStudioCode/IEEE2654Tool/bin/plugins
+$ export IEEE2654PYTHON=~/VisualStudioCode/IEEE2654Tool/python
+```	
 #### Testing the Project
 CMake includes a test infrastructure using CTest.
+#### Running Calculator Example
+To run the example with the debugable code:
+```bash
+$ cd ~/VisualStudioCode/IEEE2654Tool/bin
+$ ./IEEE2654Toold -m TestTop_d -t test1_calculator.py
+```
+The link back to the C++ code from the Python interpreter is found in calculator.py.  This file contains the code to create the Command messages and handles the response.  The Command messages for the calculator entities (e.g., BUTTON, DISPLAY) are encapsulated in Python functions called from test1_calculator.py.

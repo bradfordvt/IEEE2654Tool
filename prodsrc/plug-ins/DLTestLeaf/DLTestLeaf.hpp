@@ -52,6 +52,8 @@ public:
 private:
 	debug_instance* my_inst;
 	translator_debug_api* td_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 };
 
 #endif /* DLTESTLEAF_HPP_ */

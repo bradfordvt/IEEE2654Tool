@@ -1,5 +1,6 @@
 syntax = "proto3";
 package COMMAND;
+option optimize_for = LITE_RUNTIME;
 
 message PRESS {
   uint32 uid = 1;

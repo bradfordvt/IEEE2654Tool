@@ -43,9 +43,7 @@ public:
 	CommandBus();
 	virtual ~CommandBus();
 	CommandBus(const CommandBus &other);
-	CommandBus(CommandBus &&other);
 	CommandBus& operator=(const CommandBus &other);
-	CommandBus& operator=(CommandBus &&other);
 
 	int send_command_request( command_response_handler_callback cb, const char* target, size_t len, uint8_t* message);
 	int handle_command_request(const char* target, size_t len, uint8_t* message);
@@ -55,7 +53,7 @@ public:
 private:
 	static CommandBus* inst;
 	Translator* __find_target(const char* target);
-	command_response_handler_callback cback;
+	command_response_handler_callback cb_p;
 };
 
 #endif /* INCLUDE_BUS_COMMANDBUS_HPP_ */

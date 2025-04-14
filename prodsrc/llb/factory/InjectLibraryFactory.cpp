@@ -40,31 +40,53 @@ static const char __version__[] = "0.0.1";
 #include "inject_library_wrapper.h"
 
 #include "factory/InjectLibraryFactory.hpp"
+#include "builder/PathManager.hpp"
+#include "debug/Verify.hpp"
 
 
 void* InjectLibraryFactory::create_handle(const char* lib_basename) {
+	SWDEBUGP2( 5, Verify::FACTORY, "InjectLibraryFactory::create_handle",
+                        " const char* " );
+	SWDEBUG2( 5, Verify::TRACE, "InjectLibraryFactory::create_handle",
+                        " const char* " );
     using std::cout;
     using std::cerr;
 
-    cout << "C++ dlopen demo\n\n";
+    // cout << "C++ dlopen demo\n\n";
 
     // open the library
-    cout << "Opening " << lib_basename << ".so...\n";
-    std::string s("./");
-    s += lib_basename;
-    s += ".so";
-    cerr << "s = " << s << "\n";
-    void* handle = dlopen(s.c_str(), RTLD_LAZY);
+    // cout << "Opening " << lib_basename << ".so...\n";
+    PathManager *pm_p = PathManager::get_PathManager();
+    const std::vector<std::string>& pi_path = pm_p->get_plugin_search_path();
+    std::string s;
+    void* handle = NULL;
+    auto b = begin(pi_path);
+    for( ; b != end(pi_path); b++) {
+	    s = *b;
+	    s += "/lib";
+	    s += lib_basename;
+	    s += ".so";
+	    cerr << "s = " << s << std::endl;
+	    handle = dlopen(s.c_str(), RTLD_LAZY);
 
-    if (!handle) {
-        cerr << "Cannot open library: " << dlerror() << '\n';
-        return NULL;
+	    if (!handle) {
+		cerr << "Cannot open library: " << dlerror() << '\n';
+		continue;
+	    }
+    }
+    if(!handle) {
+	    cerr << "InjectLibraryFactory: not found!" << std::endl;
+	    return NULL;
     }
     cerr << "handle created successfully at: " << handle << "\n";
     return handle;
 }
 
 int InjectLibraryFactory::free_handle(void* handle) {
+	SWDEBUGP2( 5, Verify::FACTORY, "InjectLibraryFactory::free_handle",
+                        " void* " );
+	SWDEBUG2( 5, Verify::TRACE, "InjectLibraryFactory::free_handle",
+                        " void* " );
 	if(handle)
 	{
 		dlclose(handle);
@@ -73,11 +95,15 @@ int InjectLibraryFactory::free_handle(void* handle) {
 }
 
 struct inject_library_api* InjectLibraryFactory::get_api(void* handle) {
+	SWDEBUGP2( 5, Verify::FACTORY, "InjectLibraryFactory::get_api",
+                        " void* " );
+	SWDEBUG2( 5, Verify::TRACE, "InjectLibraryFactory::get_api",
+                        " void* " );
     using std::cout;
     using std::cerr;
 
     // load the symbol
-    cout << "Loading symbol dla...\n";
+    // cout << "Loading symbol ila...\n";
     typedef struct inject_library_api*  (*fn)();
 
     // reset errors
@@ -89,7 +115,7 @@ struct inject_library_api* InjectLibraryFactory::get_api(void* handle) {
         dlclose(handle);
         return NULL;
     }
-    cout << "Calling get_inject_library_api...\n";
+    // cout << "Calling get_inject_library_api...\n";
     struct inject_library_api* ila = (*f)();
     return ila;
 }

@@ -33,6 +33,7 @@ static const char __version__[] = "0.0.1";
 #include <stdlib.h>
 #include "api/debug_library_api.h"
 #include "DLTestLeaf.hpp"
+#include <iostream>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,6 +61,7 @@ extern "C" {
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 debug_instance* get_debug_instance( int translator_uid )
@@ -72,13 +74,15 @@ debug_instance* get_debug_instance( int translator_uid )
 	return inst;
 }
 
-int open( struct debug_instance* inst, struct translator_debug_api* td_api )
+int my_open( struct debug_instance* inst, struct translator_debug_api* td_api )
 {
+	std::cerr << "Entering DLTestLeafWrapper::open()" << std::endl;
 	TEST_MY_THIS()
+	std::cerr << "Exiting DLTestLeafWrapper::open()" << std::endl;
 	return my_this->open(inst, td_api);
 }
 
-int close( struct debug_instance* inst )
+int my_close( struct debug_instance* inst )
 {
 	MY_THIS(inst, -1);
 	return my_this->close();
@@ -179,8 +183,9 @@ static debug_library_api dla = {
 	.name = "DLTestLeaf",
 	.name_space = "Test",
 	.get_debug_instance = get_debug_instance,
-	.open = open,
-	.close = close,
+	.open = my_open,
+	.close = my_close,
+	.config = config,
 	.select = my_select,
 	.deselect = deselect,
 	.is_selected = is_selected,

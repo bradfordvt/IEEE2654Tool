@@ -37,6 +37,8 @@ static const char __version__[] = "0.0.1";
 #include "DLTestController.hpp"
 #include "rapidjson/document.h" // rapidjason's DOM-style API
 #include "IEEE2654.pb.h"
+#include <iostream>
+#include <sstream>
 
 DLTestController::DLTestController()
 {
@@ -61,11 +63,15 @@ int DLTestController::open( struct debug_instance* inst, struct translator_debug
 	my_inst->children_uids = NULL;
 	my_inst->num_children = 0;
 	my_inst->visible = 0;
+	translator_error_strings = td_api->get_translator_error_strings();
+	translator_status_strings = td_api->get_translator_status_strings();
 	std::string s("DLTestController::open(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	std::cerr << s  << std::endl;
 	return 0;
+	// Translator has not yet been registered with Repository so can't log
+	// return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestController::close( )
@@ -73,7 +79,7 @@ int DLTestController::close( )
 	std::string s("DLTestController::close(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return 0;
 }
 
@@ -83,8 +89,10 @@ int DLTestController::config( char* json_message )
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ", " + json_message;
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
-	return __parse_config(json_message);
+	std::cerr << s  << std::endl;
+	return 0;
+	// Translator has not yet been registered with Repository so can't log
+	// return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestController::select( uint32_t index )
@@ -92,7 +100,7 @@ int DLTestController::select( uint32_t index )
 	std::string s("DLTestController::select(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code = translator_failed;
 	return -1;
@@ -103,7 +111,7 @@ int DLTestController::deselect( uint32_t index )
 	std::string s("DLTestController::deselect(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code = translator_failed;
 	return -1;
@@ -114,7 +122,7 @@ bool DLTestController::is_selected( uint32_t uid )
 	std::string s("DLTestController::is_selected(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code = translator_failed;
 	return false;
@@ -127,7 +135,7 @@ enum translator_error_code DLTestController::get_error_code( translator_error_co
 	s = s + ")(code: ";
 	s += code;
         s += ")	called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return my_inst->error_code;
 }
 
@@ -138,7 +146,7 @@ const char* DLTestController::get_error_string( translator_error_code code )
 	s = s + ")(code: ";
 	s += code;
         s += ")	called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return translator_error_strings[my_inst->error_code];
 }
 
@@ -149,7 +157,7 @@ enum translator_status DLTestController::get_status_code( translator_status code
 	s = s + ")(code: ";
 	s += code;
         s += ")	called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return my_inst->status_code;
 }
 
@@ -160,12 +168,25 @@ const char* DLTestController::get_status_string( translator_status code )
 	s = s + ")(code: ";
 	s += code;
         s += ")	called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return translator_status_strings[my_inst->status_code];
 }
 
 int DLTestController::handle_request( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_request";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -176,7 +197,7 @@ int DLTestController::handle_request( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -184,10 +205,23 @@ int DLTestController::handle_request( size_t len, uint8_t* message )
 
 int DLTestController::handle_response( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_response";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	std::string s("DLTestController::handle_response(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called but not supported!\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code = translator_failed;
 	return -1;
@@ -195,6 +229,19 @@ int DLTestController::handle_response( size_t len, uint8_t* message )
 
 int DLTestController::handle_update_request( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_update_request";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -205,7 +252,7 @@ int DLTestController::handle_update_request( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -213,6 +260,19 @@ int DLTestController::handle_update_request( size_t len, uint8_t* message )
 
 int DLTestController::handle_update_response( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_update_response";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -223,7 +283,7 @@ int DLTestController::handle_update_response( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -231,6 +291,19 @@ int DLTestController::handle_update_response( size_t len, uint8_t* message )
 
 int DLTestController::handle_inject_request( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_inject_request";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -241,7 +314,7 @@ int DLTestController::handle_inject_request( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -249,6 +322,19 @@ int DLTestController::handle_inject_request( size_t len, uint8_t* message )
 
 int DLTestController::handle_inject_response( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_inject_response";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -259,7 +345,7 @@ int DLTestController::handle_inject_response( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -267,6 +353,19 @@ int DLTestController::handle_inject_response( size_t len, uint8_t* message )
 
 int DLTestController::handle_command_request( size_t len, uint8_t* message )
 {
+	std::string si = "DLTestController";
+	si += "(";
+	std::ostringstream ssi;
+	ssi << td_api->translator;
+	si += ssi.str();
+	si += ")";
+	si += "::handle_command_request";
+	si += "(";
+	si += "): ";
+	si += "message = ";
+	si += (const char*)message;
+	si += "\n";
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, si.c_str());
 	// Deserialize the channel wrapper message
 	std::string sm(reinterpret_cast<const char*>(message), len);
 	::IEEE2654::IEEE2654Message rvf;
@@ -277,7 +376,7 @@ int DLTestController::handle_command_request( size_t len, uint8_t* message )
 	s = s + ") called with metaname: ";
 	s = s + rvf.metaname();
 	s = s + ".\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unknown_metaname;
 	my_inst->status_code = translator_failed;
 	return 0;
@@ -288,10 +387,11 @@ int DLTestController::apply( ) {
 	std::string s("DLTestController::apply(");
 	s = s + std::to_string(my_inst->translator_uid);
 	s = s + ") called.\n";
-	td_api->logger(my_inst, INFO, s.c_str());
+	td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return 0;
 }
 
+#if 0
 int DLTestController::__parse_config( char* json_message )
 {
 	// 1. Parse a JSON text string to a document.
@@ -407,4 +507,5 @@ int DLTestController::__setObservable( const char* val )
 	}
 	return 0;
 }
+#endif
 

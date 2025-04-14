@@ -32,6 +32,7 @@ static const char __version__[] = "0.0.1";
 
 #include "TLTestLeaf.hpp"
 #include "rapidjson/document.h" // rapidjason's DOM-style API
+#include <iostream>
 
 TLTestLeaf::TLTestLeaf()
 {
@@ -48,6 +49,7 @@ TLTestLeaf::~TLTestLeaf()
 
 int TLTestLeaf::open( struct transform_instance* inst, struct translator_transform_api* tt_api )
 {
+	std::cerr << "Entering TLTestLeaf::open()" << std::endl;
 	my_inst = inst;
 	this->tt_api = tt_api;
 	my_inst->translator_api = tt_api;
@@ -57,6 +59,9 @@ int TLTestLeaf::open( struct transform_instance* inst, struct translator_transfo
 	my_inst->child_uid = 0;
 	my_inst->children_uids = NULL;
 	my_inst->num_children = 0;
+	translator_error_strings = tt_api->get_translator_error_strings();
+	translator_status_strings = tt_api->get_translator_status_strings();
+	std::cerr << "Exiting TLTestLeaf::open()" << std::endl;
 	return 0;
 }
 
@@ -67,6 +72,7 @@ int TLTestLeaf::close( )
 
 int TLTestLeaf::config( char* json_message )
 {
+	std::cerr << "Entering TLTestLeaf::config()" << std::endl;
 	return __parse_config(json_message);
 }
 
@@ -149,8 +155,8 @@ int TLTestLeaf::__parse_config( char* json_message )
 	
 	// In-situ parsing, decode strings directly in the source string.
 	// Source must be string.
-	char buffer[sizeof(json_message)];
-	memcpy(buffer, json_message, sizeof(json_message));
+	char buffer[strlen(json_message)+1];
+	memcpy(buffer, json_message, strlen(json_message)+1);
 	if(document.ParseInsitu(buffer).HasParseError())
 	{
 		my_inst->error_code = translator_format_error;

@@ -30,6 +30,7 @@
 #include <stack>
 #include "api/transform_library_api.h"
 #include "Imperative_EXPRESSION.pb.h"
+#include "DISPLAY.pb.h"
 #include "IEEE2654.pb.h"
 
 class TLTestController
@@ -57,16 +58,21 @@ private:
 	int __setVisible( const char* val );
 	int __setSticky( const char* val );
 	int __setObservable( const char* val );
-	int __handle_expr_request(const std::string& expr);
-	int __send_error_response(::IEEE2654::IEEE2654Message rvf);
-	int __send_response(const std::string& button);
+	int __handle_expr_request(::IEEE2654::IEEE2654Message& wrapper);
+	int __handle_read_request(::IEEE2654::IEEE2654Message& wrapper);
+	int __handle_show_request(::IEEE2654::IEEE2654Message& wrapper);
+	int __send_error_response( const char* file, int line, const char* message );
+	int __send_response( ::IEEE2654::IEEE2654Message& wrapper );
 
 	transform_instance* my_inst;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	translator_transform_api* tt_api;
 	bool sticky;
 	bool observable;
 	Imperative_EXPRESSION::EXPR exp;
-	IEEE2654::IEEE2654Message wrapper;
+	std::string display;
+	// IEEE2654::IEEE2654Message wrapper;
 };
 
 #endif /* TLTESTCONTROLLER_HPP_ */

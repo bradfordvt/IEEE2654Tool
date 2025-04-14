@@ -23,5 +23,6 @@ set( IEEE2654ToolApp_SRCS ${IEEE2654Tool_SOURCE_DIR}/testsrc/app/IEEE2654Tool_te
 # 	$<TARGET_OBJECTS:IEEE2654ToolModel>)
 # # add_executable( ${PROJECT_NAME} ${IEEE2654ToolApp_SRCS} )
 add_executable( ${PROJECT_NAME} ${IEEE2654ToolApp_SRCS} )
-target_link_libraries(${PROJECT_NAME} theapplibs cppunit)
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+target_link_libraries(${PROJECT_NAME} PUBLIC theapplibs cppunit ieee2654_compiler_flags)
 add_test(IEEE2654Tool ${EXECUTABLE_OUTPUT_PATH}/IEEE2654Tool_test)

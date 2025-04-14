@@ -28,6 +28,8 @@
 #include <stack>
 #include "api/transform_library_api.h"
 #include "Imperative_EXPRESSION.pb.h"
+#include "BUTTON.pb.h"
+#include "DISPLAY.pb.h"
 #include "IEEE2654.pb.h"
 
 class TLTestIntermediate
@@ -60,17 +62,26 @@ private:
 	int __handle_operator_request(const std::string& op, const std::string& button);
 	int __handle_dot_request(const std::string& button);
 	int __handle_expr_response(const std::string& expr);
-	int __send_error_response(IEEE2654::IEEE2654Message rvf);
+	int __handle_read_request(const ::DISPLAY::READ& disp);
+	int __handle_read_response(const std::string& disp);
+	int __handle_show_request(const ::DISPLAY::SHOW& disp);
+	int __handle_show_response(const std::string& disp);
+	int __send_error_response();
 	int __send_request(IEEE2654::IEEE2654Message wrapper);
-	int __send_response(const std::string& button);
+	int __send_response(const std::string& button, const char* meta);
+	int __logger(LOG_TYPE lt, const char* filename, int line, const char* message);
 
 	transform_instance* my_inst;
 	translator_transform_api* tt_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	bool sticky;
+	bool response_received;
 	bool observable;
 	Imperative_EXPRESSION::EXPR expr;
 	IEEE2654::IEEE2654Message wrapper;
 	std::string result;
+	std::string value;
 	std::string input;
 	std::string equation;
 	std::stack<std::string> stk;

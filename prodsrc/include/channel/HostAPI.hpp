@@ -27,8 +27,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "channel/IEEE2654Channel.hpp"
 #include "model/Translator.hpp"
+#include "parser/HostInterfaceRep.hpp"
+#include "channel/IEEE2654Channel.hpp"
 
 class IEEE2654Channel;
 class Translator;
@@ -36,18 +37,20 @@ class Translator;
 class HostAPI {
 public:
 	HostAPI();
+	HostAPI(const HostInterfaceRep& hr);
 	~HostAPI();
+
+	friend bool operator==(const HostAPI& lhs, const HostAPI& rhs);
 
 	int handle_request(uint32_t uid, size_t len, uint8_t* message);
 	int send_response(uint32_t uid, size_t len, uint8_t* message);
 	int update_request(uint32_t uid, size_t len, uint8_t* message);
 	int handle_update_response(uint32_t uid, size_t len, uint8_t* message);
-	int set_channel(IEEE2654Channel& ch);
-	int set_translator(Translator& t);
+
+	void dump(size_t indent);
 
 private:
-	IEEE2654Channel *channel;
-	Translator *translator;
+	HostInterfaceRep hrep;
 };
 
 

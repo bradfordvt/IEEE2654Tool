@@ -29,6 +29,7 @@
 #include <stddef.h>
 #include "channel/IEEE2654Channel.hpp"
 #include "model/Translator.hpp"
+#include "parser/ClientInterfaceRep.hpp"
 
 class IEEE2654Channel;
 class Translator;
@@ -36,18 +37,24 @@ class Translator;
 class ClientAPI {
 public:
 	ClientAPI();
+	ClientAPI(const ClientInterfaceRep& cr);
 	~ClientAPI();
+
+	friend bool operator==(const ClientAPI& lhs, const ClientAPI& rhs);
 
 	int send_request(uint32_t uid, size_t len, uint8_t* message);
 	int handle_response(uint32_t uid, size_t len, uint8_t* message);
 	int handle_update_request(uint32_t uid, size_t len, uint8_t* message);
 	int send_update_response(uint32_t uid, size_t len, uint8_t* message);
-	int set_channel(IEEE2654Channel& ch);
-	int set_translator(Translator& t);
+
+        // uint32_t uid;
+	IEEE2654Channel* get_Channel();
+	Translator* get_Translator();
+
+	void dump(size_t indent);
 
 private:
-	IEEE2654Channel *channel;
-	Translator *translator;
+	ClientInterfaceRep crep;
 };
 
 

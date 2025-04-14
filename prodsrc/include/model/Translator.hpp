@@ -36,13 +36,28 @@
 #include "api/debug_library_api.h"
 #include "api/inject_library_api.h"
 #include "api/command_library_api.h"
-#include "channel/ClientAPI.hpp"
-#include "channel/HostAPI.hpp"
-#include "bus/CommandBus.hpp"
+// #include "channel/ClientAPI.hpp"
+// #include "channel/HostAPI.hpp"
+// #include "bus/CommandBus.hpp"
+// #include "bus/CommandInterface.hpp"
+// #include "bus/InjectInterface.hpp"
+
+#include "parser/TranslatorRep.hpp"
+
+#include "wrapper/TransformLibraryWrapper.hpp"
+#include "wrapper/DebugLibraryWrapper.hpp"
+#include "wrapper/InjectLibraryWrapper.hpp"
+#include "wrapper/CommandLibraryWrapper.hpp"
 
 class ClientAPI;
 class HostAPI;
 class CommandBus;
+class CommandInterface;
+class InjectInterface;
+class TransformLibraryWrapper;
+class DebugLibraryWrapper;
+class InjectLibraryWrapper;
+class CommandLibraryWrapper;
 
 
 class Translator {
@@ -50,25 +65,29 @@ class Translator {
 	friend class Translator_TestCases;
 #endif
 public:
-	Translator(const char* path, const char* tlibbase, const char* dlibbase, const char* ilibbase, const char* clibbase);
+	Translator(const TranslatorRep& tr);
+	// Translator(const char* path, const char* tlibbase, const char* dlibbase, const char* ilibbase, const char* clibbase);
 	~Translator();
 
-	static Translator* find_translator_by_uid(uint32_t uid);
-	static Translator* find_translator_by_path(const char* path);
+	friend bool operator==(const Translator& lhs, const Translator& rhs);
 
+	// static Translator* find_translator_by_uid(uint32_t uid);
+	// static Translator* find_translator_by_path(const char* path);
+
+#if 0
 	// Transform/Inject Libraries shared callbacks
 	static int transform_send_request( struct transform_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	static int inject_send_request( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
+// 	static int inject_send_request( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_inject_request( struct command_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_inject_response( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_command_response( struct command_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int update_request( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_response( struct transform_instance* inst, uint32_t uid, size_t len, uint8_t* message );
 	static int send_update_response( struct inject_instance* inst, uint32_t uid, size_t len, uint8_t* message );
-	static int logger_transform( struct transform_instance* inst, log_severity severity, const char* message );
-	static int logger_inject( struct inject_instance* inst, log_severity severity, const char* message );
-	static int logger_debug( struct debug_instance* inst, log_severity severity, const char* message );
-	static int logger_command( struct command_instance* inst, log_severity severity, const char* message );
+	static int logger_transform( struct transform_instance* inst, LOG_TYPE severity, const char* message );
+	static int logger_inject( struct inject_instance* inst, LOG_TYPE severity, const char* message );
+	static int logger_debug( struct debug_instance* inst, LOG_TYPE severity, const char* message );
+	static int logger_command( struct command_instance* inst, LOG_TYPE severity, const char* message );
 	static int create_var( const char* json_message );
 	static const char* read_var( const char* json_message );
 	static int update_var( const char* json_message );
@@ -77,30 +96,68 @@ public:
 	static const char* get_debug_path( struct debug_instance* inst );
 	static const char* get_inject_path( struct inject_instance* inst );
 	static const char* get_command_path( struct command_instance* inst );
+#endif
+
+	// int send_command_request(const char* target, size_t len, uint8_t* message);
 
 	int handle_request( uint32_t uid, size_t len, uint8_t* message );
-	int handle_response( uint32_t uid, size_t len, uint8_t* message );
+	// int handle_response( uint32_t uid, size_t len, uint8_t* message );
 	int handle_update_request( uint32_t uid, size_t len, uint8_t* message );
 	int handle_update_response( uint32_t uid, size_t len, uint8_t* message );
-	int handle_inject_request( uint32_t uid, size_t len, uint8_t* message );
+	// int handle_inject_request( uint32_t uid, size_t len, uint8_t* message );
 	int handle_inject_response( uint32_t uid, size_t len, uint8_t* message );
-	int handle_command_request( size_t len, uint8_t* message );
-	int handle_command_response( const char* target, size_t len, uint8_t* message );
+	int handle_command_request( const char* target, size_t len, uint8_t* message );
+	// int handle_command_response( const char* target, size_t len, uint8_t* message );
 
+	ClientAPI* get_ClientAPI();
+	HostAPI* get_HostAPI(int index);
+	CommandInterface* get_CommandInterface();
+	InjectInterface* get_InjectInterface();
+	int get_num_children();
+	Translator* get_child(int index);
+	uint32_t get_uid();
+
+#if 0
 	int set_client( uint32_t uid, ClientAPI& client );
 	int add_host( uint32_t uid, HostAPI& host );
+#endif
 
+	int send_response(uint32_t uid, size_t len, uint8_t* message);
+	// New code
+	int send_inject_request(uint32_t uid, size_t len, uint8_t* message);
+	int send_inject_response(uint32_t uid, size_t len, uint8_t* message);
+	int handle_inject_request( uint32_t uid, size_t len, uint8_t* message );
+ 	int send_command_response( uint32_t uid, size_t len, uint8_t* message );
+	int handle_command_response( const char* target, size_t len, uint8_t* message );
+	int inject_send_request(uint32_t uid, size_t len, uint8_t* message);
+	int transform_send_request(uint32_t uid, size_t len, uint8_t* message);
+	int handle_response( uint32_t uid, size_t len, uint8_t* message );
+	int update_request(uint32_t uid, size_t len, uint8_t* message);
+	int send_update_response( uint32_t uid, size_t len, uint8_t* message );
+	int send_transform_response( uint32_t uid, size_t len, uint8_t* message );
+	int logger_transform( LOG_TYPE severity, const char* message );
+	int logger_inject( LOG_TYPE severity, const char* message );
+	int logger_debug( LOG_TYPE severity, const char* message );
+	int logger_command( LOG_TYPE severity, const char* message );
+	const char* get_path();
+	const char* get_module_name();
+	const char* get_instance_name();
+
+	void dump(size_t indent);
 
 private:
 	Translator();
 	Translator(const Translator& t);
 	Translator& operator=(const Translator& t);
+#if 0
 	static Translator* __lookup_translator(uint32_t translator_uid);
 	HostAPI* __lookup_host(uint32_t uid);
+#endif
 	const char* __get_path();
-	int __logger(log_severity severity, const char* message);
+	int __logger(LOG_TYPE severity, const char* message);
+	Translator* __get_child_by_uid(uint32_t uid);
 
-	static uint32_t translator_count;
+	// static uint32_t translator_count;
 	static CommandBus* cmd_bus;
 	uint32_t t_uid;
 	int mode;
@@ -120,13 +177,23 @@ private:
 	debug_instance* d_inst;
 	inject_instance* i_inst;
 	command_instance* c_inst;
-	ClientAPI* client_p;
-	// Associative arrays
-	static std::vector<Translator*> translator_list;
-	static std::vector<uint32_t> uid_list;
-	static std::vector<const char*> path_list;
+	// ClientAPI* client_p;
+	TranslatorRep trep;
 
-	std::map<uint32_t, HostAPI*> host_repository;
+	InjectInterface* ii_p; // IF between InjectLibrary and CommandLibrary
+	CommandInterface* ci_p; // IF between CommandLibrary and CommandBus
+
+	TransformLibraryWrapper* tlw_p;
+	DebugLibraryWrapper* dlw_p;
+	InjectLibraryWrapper* ilw_p;
+	CommandLibraryWrapper* clw_p;
+
+	// Associative arrays
+	// static std::vector<Translator*> translator_list;
+	// static std::vector<uint32_t> uid_list;
+	// static std::vector<const char*> path_list;
+
+	// std::map<uint32_t, HostAPI*> host_repository;
 };
 
 #endif /* INCLUDE_MODEL_TRANSLATOR_HPP_ */

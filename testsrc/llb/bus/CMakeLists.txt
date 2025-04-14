@@ -31,5 +31,6 @@ set( IEEE2654ToolBus_SRCS
 #         $<TARGET_OBJECTS:IEEE2654ToolModel>)
 # add_executable( ${PROJECT_NAME} ${IEEE2654ToolApp_SRCS} )
 add_executable( CommandBus_test ${IEEE2654ToolBus_SRCS} )
-target_link_libraries(CommandBus_test theapplibs cppunit)
+set_target_properties(CommandBus_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+target_link_libraries(CommandBus_test PUBLIC theapplibs cppunit ieee2654_compiler_flags)
 add_test(CommandBus ${EXECUTABLE_OUTPUT_PATH}/CommandBus_test)

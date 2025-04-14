@@ -54,6 +54,8 @@ private:
 
 	transform_instance* my_inst;
 	translator_transform_api* tt_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	bool sticky;
 	bool observable;
 	std::string function;

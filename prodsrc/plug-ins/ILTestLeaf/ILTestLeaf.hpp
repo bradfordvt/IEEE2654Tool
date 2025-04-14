@@ -50,6 +50,7 @@ public:
 	int apply( );
 
 private:
+	int __logger(LOG_TYPE lt, const char* filename, int line, const char* message);
 	int __parse_config( char* json_message );
 	int __setVisible( const char* val );
 	int __setSticky( const char* val );
@@ -61,9 +62,12 @@ private:
 
 	inject_instance* my_inst;
 	translator_inject_api* ti_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	bool visible;
 	bool sticky;
 	bool observable;
+	bool response_received;
 	std::string function;
 };
 

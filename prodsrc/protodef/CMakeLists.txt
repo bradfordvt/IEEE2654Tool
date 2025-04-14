@@ -12,12 +12,13 @@ set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR} )
 
 FILE(TO_NATIVE_PATH ${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef PROTOMODEL_PATH)
 FILE(TO_NATIVE_PATH ${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef/generated PROTOBINDING_PATH)
+FILE(TO_NATIVE_PATH ${IEEE2654Tool_SOURCE_DIR}/python PROTOBINDING_PYTHON_PATH)
 
 FILE(GLOB DATAMODEL_PROTOS "${IEEE2654Tool_SOURCE_DIR}/prodsrc/protodef/*.proto")
 
 FOREACH(proto ${DATAMODEL_PROTOS})
 	FILE(TO_NATIVE_PATH ${proto} proto_native)
-	EXECUTE_PROCESS(COMMAND ${Protobuf_PROTOC_EXECUTABLE} --proto_path=${PROTOMODEL_PATH} --cpp_out=${PROTOBINDING_PATH} ${proto_native}
+	EXECUTE_PROCESS(COMMAND ${Protobuf_PROTOC_EXECUTABLE} --proto_path=${PROTOMODEL_PATH} --cpp_out=${PROTOBINDING_PATH} --python_out=${PROTOBINDING_PYTHON_PATH} ${proto_native}
 	RESULT_VARIABLE rv)
 	# Optional, but that can show the user if something have gone wrong with the proto generation
 	IF(${rv})

@@ -37,10 +37,13 @@ static const char __version__[] = "0.0.1";
 #include "log/Logger.hpp"
 #include <stdint.h>
 #include <stddef.h>
+// #include "debug/Verify.hpp"
 
 Logger* Logger::inst = NULL;
 
 Logger* Logger::get_logger() {
+	// SWDEBUGP1( 5, Verify::LOG, "Logger::get_logger");
+	// SWDEBUG1( 5, Verify::TRACE, "Logger::get_logger");
 	if(Logger::inst == NULL) {
 		Logger::inst = new Logger();
 	}
@@ -48,47 +51,67 @@ Logger* Logger::get_logger() {
 }
 
 Logger::Logger() {
+	// SWDEBUGP1( 5, Verify::LOG, "Logger::Logger");
+	// SWDEBUG1( 5, Verify::TRACE, "Logger::Logger");
 }
 
 Logger::~Logger() {
+	// SWDEBUGP1( 5, Verify::LOG, "Logger::~Logger");
+	// SWDEBUG1( 5, Verify::TRACE, "Logger::~Logger");
 	std::vector<std::ostream*>::iterator it;
 	for(; it != Logger::os_list.end(); ++it) {
 		delete *it;
 	}
 }
 
-void Logger::log(LOG_TYPE type, const char* message) {
+int Logger::log(LOG_TYPE type, const char* message) {
+	// SWDEBUGP2( 5, Verify::LOG, "Logger::log",
+                        // " const char* " );
+	// SWDEBUG2( 5, Verify::TRACE, "Logger::log",
+                        // " const char* " );
+	int ret = 0;
 	std::vector<std::ostream*>::iterator it;
 	if(type == ERROR) {
-		std::cerr << "ERROR: " << message << "\n";
+		std::cerr << "ERROR: " << message << std::endl;
 	}
 	else if(type == WARNING) {
-		std::cerr << "WARNING: " << message << "\n";
+		std::cerr << "WARNING: " << message << std::endl;
 	}
 	else if(type == DEBUG) {
-		std::cerr << "DEBUG: " << message << "\n";
+		std::cerr << "DEBUG: " << message << std::endl;
 	}
 	else if(type == NOTICE) {
-		std::cerr << "NOTICE: " << message << "\n";
+		std::cerr << "NOTICE: " << message << std::endl;
+	}
+	else {
+		std::cerr << "UNKNOWN: " << message << std::endl;
+		ret = -1;
 	}
 	std::cerr.flush();
+	std::cout.flush();
 	it = os_list.begin();
 	for( ; it != Logger::os_list.end(); ++it) {
 		if(type == ERROR) {
-			**it << "ERROR: " << message << "\n";
+			**it << "ERROR: " << message << std::endl;
 		}
 		else if(type == WARNING) {
-			**it << "WARNING: " << message << "\n";
+			**it << "WARNING: " << message << std::endl;
 		}
 		else if(type == DEBUG) {
-			**it << "DEBUG: " << message << "\n";
+			**it << "DEBUG: " << message << std::endl;
 		}
 		else if(type == NOTICE) {
-			**it << "NOTICE: " << message << "\n";
+			**it << "NOTICE: " << message << std::endl;
 		}
+		(**it).flush();
 	}
+	return ret;
 }
 
 void Logger::add_stream(std::ostream* os) {
+	// SWDEBUGP2( 5, Verify::LOG, "Logger::add_stream",
+                        // " std::ostream* " );
+	// SWDEBUG2( 5, Verify::TRACE, "Logger::add_stream",
+                        // " std::ostream* " );
 	Logger::os_list.push_back(os);
 }

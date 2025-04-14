@@ -54,10 +54,12 @@ extern "C" {
 	if(my_this == NULL) {\
 		my_this = new ILTestLeaf();\
 		if(my_this == NULL) {\
+			std::cerr << "TEST_MY_THIS my_this is NULL" << std::endl;\
 			inst->error_code = translator_error;\
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 inject_instance* get_inject_instance( int translator_uid )
@@ -70,9 +72,11 @@ inject_instance* get_inject_instance( int translator_uid )
 	return inst;
 }
 
-int open( struct inject_instance* inst, struct translator_inject_api* ti_api )
+int my_open( struct inject_instance* inst, struct translator_inject_api* ti_api )
 {
-	TEST_MY_THIS()
+	std::cerr << "Entering ILTestLeafWrapper::open()" << std::endl;
+        TEST_MY_THIS()
+        std::cerr << "Calling ILTestLeafWrapper::open() in class" << std::endl;
 	return my_this->open(inst, ti_api);
 }
 
@@ -84,7 +88,10 @@ int my_close( struct inject_instance* inst )
 
 int config( struct inject_instance* inst, char* json_message )
 {
-	MY_THIS(inst, -1)
+	std::cerr << "Entering ILTestLeafWrapper::config()" << std::endl;
+        std::cerr << "json_message = " << json_message << std::endl;
+        MY_THIS(inst, -1)
+        std::cerr << "Calling ILTestLeafWrapper::config() in class" << std::endl;
 	return my_this->config(json_message);
 }
 
@@ -156,7 +163,12 @@ int handle_update_response( struct inject_instance* inst, size_t len, uint8_t* m
 
 int handle_inject_request( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	std::cerr << "Entering ILTestLeafWrapper::handle_inject_request" << std::endl;
+	std::cerr << "inst = " << inst << std::endl;
+	std::cerr << "len = " << len << std::endl;
+	std::cerr << "message = " << message << std::endl;
 	MY_THIS(inst, -1)
+	std::cerr << "my_this = " << my_this << std::endl;
 	return my_this->handle_inject_request(len, message);
 }
 
@@ -171,8 +183,9 @@ static inject_library_api ila = {
 	.name = "ILTestLeaf",
 	.name_space = "Test",
 	.get_inject_instance = get_inject_instance,
-	.open = open,
+	.open = my_open,
 	.close = my_close,
+	.config = config,
 	.select = my_select,
 	.deselect = deselect,
 	.is_selected = is_selected,

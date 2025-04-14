@@ -23,5 +23,6 @@ set( IEEE2654ToolLog_SRCS1
 	)
 
 add_executable( Logger_test ${IEEE2654ToolLog_SRCS1} )
-target_link_libraries(Logger_test theapplibs cppunit)
+set_target_properties(Logger_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+target_link_libraries(Logger_test PUBLIC theapplibs cppunit ieee2654_compiler_flags)
 add_test(Logger ${EXECUTABLE_OUTPUT_PATH}/Logger_test)

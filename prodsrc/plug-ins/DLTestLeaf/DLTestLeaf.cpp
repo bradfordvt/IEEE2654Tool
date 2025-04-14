@@ -36,6 +36,7 @@ static const char __version__[] = "0.0.1";
 #include "IEEE2654.pb.h"
 #include "BUTTON.pb.h"
 #include "COMMAND.pb.h"
+#include <iostream>
 
 DLTestLeaf::DLTestLeaf()
 {
@@ -49,6 +50,7 @@ DLTestLeaf::~DLTestLeaf()
 
 int DLTestLeaf::open( struct debug_instance* inst, struct translator_debug_api* td_api )
 {
+	std::cerr << "Entering DLTestLeaf::open()" << std::endl;
 	my_inst = inst;
 	this->td_api = td_api;
 	my_inst->translator_api = td_api;
@@ -57,6 +59,8 @@ int DLTestLeaf::open( struct debug_instance* inst, struct translator_debug_api* 
 	my_inst->visible = true;
 	my_inst->child_uid = 0;
 	my_inst->children_uids = NULL;
+	translator_error_strings = td_api->get_translator_error_strings();
+	translator_status_strings = td_api->get_translator_status_strings();
 	my_inst->num_children = 0;
 	std::string s = "DLTestLeaf";
 	s += "(";
@@ -68,7 +72,11 @@ int DLTestLeaf::open( struct debug_instance* inst, struct translator_debug_api* 
 	s += "(";
 	s += ")";
 	s += "\n";
-	return td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	std::cerr << s  << std::endl;
+	std::cerr << "Exiting DLTestLeaf::open()" << std::endl;
+	return 0;
+	// Translator has not yet been registered with Repository so can't log
+	// return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestLeaf::close( )
@@ -83,11 +91,12 @@ int DLTestLeaf::close( )
 	s += "(";
 	s += ")";
 	s += "\n";
-	return td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestLeaf::config( char* json_message )
 {
+	std::cerr << "Entering DLTestLeaf::config()" << std::endl;
 	std::string s = "DLTestLeaf";
 	s += "(";
 	std::ostringstream ss;
@@ -99,7 +108,11 @@ int DLTestLeaf::config( char* json_message )
 	s += json_message;
 	s += ")";
 	s += "\n";
-	return td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	std::cerr << s  << std::endl;
+	std::cerr << "Exiting DLTestLeaf::config()" << std::endl;
+	return 0;
+	// Translator has not yet been registered with Repository so can't log
+	// return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestLeaf::select( uint32_t index )
@@ -117,7 +130,7 @@ int DLTestLeaf::select( uint32_t index )
 	s += ss1.str();
 	s += ")";
 	s += "\n";
-	return td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 int DLTestLeaf::deselect( uint32_t index )
@@ -135,7 +148,7 @@ int DLTestLeaf::deselect( uint32_t index )
 	s += ss1.str();
 	s += ")";
 	s += "\n";
-	return td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	return td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 }
 
 bool DLTestLeaf::is_selected( uint32_t uid )
@@ -153,7 +166,7 @@ bool DLTestLeaf::is_selected( uint32_t uid )
 	s += ss1.str();
 	s += ")";
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return false;
 }
 
@@ -175,7 +188,7 @@ enum translator_error_code DLTestLeaf::get_error_code( translator_error_code cod
 	ss2 << my_inst->error_code;
 	s += ss2.str();
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return my_inst->error_code;
 }
 
@@ -195,7 +208,7 @@ const char* DLTestLeaf::get_error_string( translator_error_code code )
 	s += "): ";
 	s += translator_error_strings[my_inst->error_code];
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return translator_error_strings[my_inst->error_code];
 }
 
@@ -217,7 +230,7 @@ enum translator_status DLTestLeaf::get_status_code( translator_status code )
 	ss2 << my_inst->status_code;
 	s += ss2.str();
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return my_inst->status_code;
 }
 
@@ -237,7 +250,7 @@ const char* DLTestLeaf::get_status_string( translator_status code )
 	s += "): ";
 	s += translator_status_strings[my_inst->status_code];
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return translator_status_strings[my_inst->status_code];
 }
 
@@ -255,7 +268,7 @@ int DLTestLeaf::handle_request( size_t len, uint8_t* message )
 	s += "): ";
 	s += "THIS SHOULD NOT BE CALLED!";
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code = translator_failed;
 	return -1;
@@ -274,6 +287,9 @@ int DLTestLeaf::handle_response( size_t len, uint8_t* message )
 	s += "::handle_response";
 	s += "(";
 	s += "): ";
+	s += "message = ";
+	s += (const char*)message;
+	s += "\n";
 	s += "msg.metaname: ";
 	s += msg.metaname();
 	s += " ";
@@ -292,7 +308,7 @@ int DLTestLeaf::handle_response( size_t len, uint8_t* message )
 			ss2 << my_inst->translator_uid;
 			s += ss2.str();
 			s += "\n";
-			int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+			int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 			my_inst->error_code = translator_message_error;
 			my_inst->status_code= translator_failed;
 			return -1;
@@ -304,7 +320,7 @@ int DLTestLeaf::handle_response( size_t len, uint8_t* message )
 		ss1 << btn.uid();
 		s += ss1.str();
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		return ret;
 	}
 	else if(msg.metaname() == "ERROR")
@@ -322,7 +338,7 @@ int DLTestLeaf::handle_response( size_t len, uint8_t* message )
 		s += " err.message: ";
 		s += err.message();
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		my_inst->error_code = translator_response_failed;
 		my_inst->status_code = translator_failed;
 		return -1;
@@ -330,7 +346,7 @@ int DLTestLeaf::handle_response( size_t len, uint8_t* message )
 	else
 	{
 		s += "UNKNOWN METANAME!\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		my_inst->error_code = translator_unknown_metaname;
 		my_inst->status_code = translator_failed;
 		return -1;
@@ -349,9 +365,12 @@ int DLTestLeaf::handle_update_request( size_t len, uint8_t* message )
 	s += "::handle_update_request";
 	s += "(";
 	s += "): ";
+	s += "message = ";
+	s += (const char*)message;
+	s += "\n";
 	s += "THIS SHOULD NOT BE CALLED!";
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code= translator_failed;
 	return -1;
@@ -369,9 +388,12 @@ int DLTestLeaf::handle_update_response( size_t len, uint8_t* message )
 	s += "::handle_update_response";
 	s += "(";
 	s += "): ";
+	s += "message = ";
+	s += (const char*)message;
+	s += "\n";
 	s += "THIS SHOULD NOT BE CALLED!";
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	my_inst->error_code = translator_unsupported_feature;
 	my_inst->status_code= translator_failed;
 	return -1;
@@ -390,6 +412,9 @@ int DLTestLeaf::handle_inject_request( size_t len, uint8_t* message )
 	s += "::handle_inject_request";
 	s += "(";
 	s += "): ";
+	s += "message = ";
+	s += (const char*)message;
+	s += "\n";
 	s += "msg.metaname: ";
 	s += msg.metaname();
 	s += " ";
@@ -401,14 +426,14 @@ int DLTestLeaf::handle_inject_request( size_t len, uint8_t* message )
 		btn.set_function(cmd.function());
 		s += cmd.function();
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		return ret;
 	}
 	else
 	{
 		s += "Unkown metaname: ";
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		my_inst->error_code = translator_unknown_metaname;
 		my_inst->status_code = translator_failed;
 		return ret;
@@ -439,14 +464,14 @@ int DLTestLeaf::handle_inject_request( size_t len, uint8_t* message )
 // 		btn.set_function(cmd.function());
 // 		s += cmd.function();
 // 		s += "\n";
-// 		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+// 		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 // 		return ret;
 // 	}
 // 	else
 // 	{
 // 		s += "Unkown metaname: ";
 // 		s += "\n";
-// 		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+// 		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 // 		my_inst->error_code = translator_unknown_metaname;
 // 		my_inst->status_code = translator_failed;
 // 		return ret;
@@ -466,6 +491,9 @@ int DLTestLeaf::handle_command_request( size_t len, uint8_t* message )
 	s += "::handle_command_request";
 	s += "(";
 	s += "): ";
+	s += "message = ";
+	s += (const char*)message;
+	s += "\n";
 	s += "msg.metaname: ";
 	s += msg.metaname();
 	s += " ";
@@ -477,14 +505,14 @@ int DLTestLeaf::handle_command_request( size_t len, uint8_t* message )
 		btn.set_function(cmd.function());
 		s += cmd.function();
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		return ret;
 	}
 	else
 	{
 		s += "Unkown metaname: ";
 		s += "\n";
-		int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+		int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 		my_inst->error_code = translator_unknown_metaname;
 		my_inst->status_code = translator_failed;
 		return ret;
@@ -504,7 +532,7 @@ int DLTestLeaf::apply( )
 	s += "): ";
 	s += "Apply function called for active library for this instance.";
 	s += "\n";
-	int ret = td_api->logger(my_inst, log_severity::INFO, s.c_str());
+	int ret = td_api->logger(my_inst, LOG_TYPE::NOTICE, s.c_str());
 	return 0;
 }
 

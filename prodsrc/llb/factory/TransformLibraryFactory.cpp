@@ -40,31 +40,40 @@ static const char __version__[] = "0.0.1";
 #include "transform_library_wrapper.h"
 
 #include "factory/TransformLibraryFactory.hpp"
+#include "debug/Verify.hpp"
 
 
 void* TransformLibraryFactory::create_handle(const char* lib_basename) {
+	SWDEBUGP2( 5, Verify::FACTORY, "TransformLibraryFactory::create_handle",
+                        " const char* " );
+	SWDEBUG2( 5, Verify::TRACE, "TransformLibraryFactory::create_handle",
+                        " const char* " );
     using std::cout;
     using std::cerr;
 
-    cout << "C++ dlopen demo\n\n";
+    // cout << "C++ dlopen demo\n\n";
 
     // open the library
-    cout << "Opening " << lib_basename << ".so...\n";
-    std::string s("./");
+    // cout << "Opening " << lib_basename << ".so...\n";
+    std::string s("./plugins/lib");
     s += lib_basename;
     s += ".so";
-    cerr << "s = " << s << "\n";
+    // cerr << "s = " << s << "\n";
     void* handle = dlopen(s.c_str(), RTLD_LAZY);
 
     if (!handle) {
         cerr << "Cannot open library: " << dlerror() << '\n';
         return NULL;
     }
-    cerr << "handle created successfully at: " << handle << "\n";
+    // cerr << "handle created successfully at: " << handle << "\n";
     return handle;
 }
 
 int TransformLibraryFactory::free_handle(void* handle) {
+	SWDEBUGP2( 5, Verify::FACTORY, "TransformLibraryFactory::free_handle",
+                        " void* " );
+	SWDEBUG2( 5, Verify::TRACE, "TransformLibraryFactory::free_handle",
+                        " void* " );
 	if(handle)
 	{
 		dlclose(handle);
@@ -73,11 +82,15 @@ int TransformLibraryFactory::free_handle(void* handle) {
 }
 
 struct transform_library_api* TransformLibraryFactory::get_api(void* handle) {
+	SWDEBUGP2( 5, Verify::FACTORY, "TransformLibraryFactory::get_api",
+                        " void* " );
+	SWDEBUG2( 5, Verify::TRACE, "TransformLibraryFactory::get_api",
+                        " void* " );
     using std::cout;
     using std::cerr;
 
     // load the symbol
-    cout << "Loading symbol tla...\n";
+    // cout << "Loading symbol tla...\n";
     typedef struct transform_library_api*  (*fn)();
 
     // reset errors
@@ -89,7 +102,7 @@ struct transform_library_api* TransformLibraryFactory::get_api(void* handle) {
         dlclose(handle);
         return NULL;
     }
-    cout << "Calling get_transform_library_api...\n";
+    // cout << "Calling get_transform_library_api...\n";
     struct transform_library_api* tla = (*f)();
     return tla;
 }

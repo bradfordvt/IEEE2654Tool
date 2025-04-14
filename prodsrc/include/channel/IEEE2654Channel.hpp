@@ -29,16 +29,18 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "channel/ClientAPI.hpp"
-#include "channel/HostAPI.hpp"
+#include "parser/ChannelRep.hpp"
 
-class ClientAPI;
 class HostAPI;
+class ClientAPI;
 
 class IEEE2654Channel {
 public:
 	IEEE2654Channel();
+	IEEE2654Channel(const ChannelRep& cr);
 	~IEEE2654Channel();
+
+	friend bool operator==(const IEEE2654Channel& lhs, const IEEE2654Channel& rhs);
 
 	int send_request(uint32_t uid, size_t len, uint8_t* message);
 	int send_response(uint32_t uid, size_t len, uint8_t* message);
@@ -49,13 +51,13 @@ public:
 	int send_update_response(uint32_t uid, size_t len, uint8_t* message);
 	int handle_update_response(uint32_t uid, size_t len, uint8_t* message);
 
-	int set_client(ClientAPI& capi);
-	int set_host(HostAPI& hapi);
+	HostAPI* get_HostAPI();
+	ClientAPI* get_ClientAPI();
+
+	void dump(size_t indent);
 
 private:
-	ClientAPI* client_p;
-	HostAPI* host_p;
+	ChannelRep crep;
 };
-
 
 #endif /* INCLUDE_CHANNEL_IEEE2654CHANNEL_HPP_ */

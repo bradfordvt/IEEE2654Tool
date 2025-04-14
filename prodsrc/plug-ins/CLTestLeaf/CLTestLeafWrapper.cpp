@@ -31,6 +31,7 @@ static const char __status__[] = "Alpha/Experimental";
 static const char __version__[] = "0.0.1";
 
 #include <stdlib.h>
+#include <iostream>
 #include "api/command_library_api.h"
 #include "CLTestLeaf.hpp"
 
@@ -40,39 +41,49 @@ extern "C" {
 
 #define MY_THIS(inst, ret) if(inst == NULL)\
 	{\
+		std::cerr << "inst == NULL " << std::endl; \
 		return ret;\
 	}\
 	CLTestLeaf* my_this = (CLTestLeaf*)(inst->private_data);\
 	if(my_this == NULL)\
 	{\
+		std::cerr << "my_this == NULL " << std::endl; \
 		inst->error_code = translator_error;\
 		inst->status_code = translator_broken;\
 		return ret;\
 	}
 
 #define TEST_MY_THIS() CLTestLeaf* my_this = (CLTestLeaf*)(inst->private_data);\
+	std::cerr << "TEST_MY_THIS" << std::endl; \
 	if(my_this == NULL) {\
+		std::cerr << "my_this(1) == NULL " << std::endl; \
 		my_this = new CLTestLeaf();\
 		if(my_this == NULL) {\
+			std::cerr << "my_this(2) == NULL " << std::endl; \
 			inst->error_code = translator_error;\
 			inst->status_code = translator_broken;\
 			return -1;\
 		}\
+		inst->private_data = (void*)my_this;\
 	}
 
 command_instance* get_command_instance( int translator_uid )
 {
+	std::cerr << "Entering CLTestLeaf::get_command_instance()" << std::endl;
 	command_instance* inst = (command_instance*)malloc(sizeof(command_instance));
 	inst->translator_uid = translator_uid;
 	inst->error_code = translator_success;
 	inst->status_code = translator_ok;
 	inst->private_data = (void*)0;
+	std::cerr << "Exiting CLTestLeaf::get_command_instance()" << std::endl;
 	return inst;
 }
 
-int open( struct command_instance* inst, struct translator_command_api* tc_api )
+int my_open( struct command_instance* inst, struct translator_command_api* tc_api )
 {
+	std::cerr << "Entering CLTestLeaf::open()" << std::endl;
 	TEST_MY_THIS()
+	std::cerr << "Calling CLTestLeaf::open() in class" << std::endl;
 	return my_this->open(inst, tc_api);
 }
 
@@ -84,7 +95,10 @@ int my_close( struct command_instance* inst )
 
 int config( struct command_instance* inst, char* json_message )
 {
+	std::cerr << "Entering CLTestLeaf::config()" << std::endl;
+	std::cerr << "json_message = " << json_message << std::endl;
 	MY_THIS(inst, -1)
+	std::cerr << "Calling CLTestLeaf::config() in class" << std::endl;
 	return my_this->config(json_message);
 }
 
@@ -114,7 +128,12 @@ const char* get_status_string( struct command_instance* inst )
 
 int handle_command_request( struct command_instance* inst, size_t len, uint8_t* message )
 {
+	std::cerr << "Entering CLTestLeafWrapper::handle_command_request" << std::endl;
+	std::cerr << "inst = " << inst << std::endl;
+	std::cerr << "len = " << len << std::endl;
+	std::cerr << "message = " << message << std::endl;
 	MY_THIS(inst, -1)
+	std::cerr << "my_this = " << my_this << std::endl;
 	return my_this->handle_command_request(len, message);
 }
 
@@ -135,8 +154,9 @@ static command_library_api cla = {
 	.name = "CLTestLeaf",
 	.name_space = "Test",
 	.get_command_instance = get_command_instance,
-	.open = open,
+	.open = my_open,
 	.close = my_close,
+	.config = config,
 	.get_error_code = get_error_code,
 	.get_error_string = get_error_string,
 	.get_status_code = get_status_code,

@@ -24,7 +24,7 @@
 #include <stddef.h>
 #include <string>
 #include "api/command_library_api.h"
-#include "Imperative_KEYPAD.pb.h"
+#include "IEEE2654.pb.h"
 
 class CLTestLeaf
 {
@@ -44,19 +44,24 @@ public:
 	int apply( );
 
 private:
+	int __logger(LOG_TYPE lt, const char* filename, int line, const char* message);
 	int __parse_config( char* json_message );
 	int __setVisible( const char* val );
 	int __setSticky( const char* val );
 	int __setObservable( const char* val );
 	int __setFunction( const char* val );
+	int __send_command_request( const char* metaname, std::string& msg );
 	int __send_inject_request( const char* metaname, std::string& message );
-	int __sendImperativeResponse( const char* metaname, std::string& message );
+	int __sendImperativeResponse( ::IEEE2654::IEEE2654Message& wrapper );
 	int __sendImperativeErrorResponse( const char* file, int line, const char* message );
 
 	command_instance* my_inst;
 	translator_command_api* tc_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	bool sticky;
 	bool observable;
+	bool response_received;
 	std::string function;
 };
 

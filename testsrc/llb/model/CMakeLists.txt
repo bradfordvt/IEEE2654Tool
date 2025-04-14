@@ -23,5 +23,6 @@ set( IEEE2654ToolModelTest_SRCS1
 )
 
 add_executable( Translator_test ${IEEE2654ToolModelTest_SRCS1} )
-target_link_libraries(Translator_test theapplibs cppunit)
+set_target_properties(Translator_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+target_link_libraries(Translator_test PUBLIC theapplibs cppunit ieee2654_compiler_flags)
 add_test(Translator ${EXECUTABLE_OUTPUT_PATH}/Translator_test)

@@ -54,10 +54,10 @@ public:
 	int apply( );
 
 private:
-	int __parse_config( char* json_message );
-	int __setVisible( const char* val );
-	int __setSticky( const char* val );
-	int __setObservable( const char* val );
+	// int __parse_config( char* json_message );
+	// int __setVisible( const char* val );
+	// int __setSticky( const char* val );
+	// int __setObservable( const char* val );
 	int __handle_digit_request(const std::string& value, const std::string& button);
 	int __handle_enter_request(const std::string& button);
 	int __handle_operator_request(const std::string& op, const std::string& button);
@@ -66,6 +66,8 @@ private:
 
 	debug_instance* my_inst;
 	translator_debug_api* td_api;
+	const char** translator_error_strings;
+	const char** translator_status_strings;
 	bool sticky;
 	bool observable;
 	std::string result;

@@ -1,5 +1,6 @@
 syntax = "proto3";
 package IEEE2654;
+option optimize_for = LITE_RUNTIME;
 
 enum IEEE2654Type {
   REQUEST = 0;

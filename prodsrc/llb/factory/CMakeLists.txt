@@ -26,3 +26,6 @@ set( IEEE2654ToolFactory_SRCS
 )
 
 add_library( ${PROJECT_NAME} ${IEEE2654ToolFactory_SRCS} )
+set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION "1.0.0")
+set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION "1")
+target_link_libraries(${PROJECT_NAME} PUBLIC ieee2654_compiler_flags)

@@ -36,8 +36,45 @@ static const char __status__[] = "Alpha/Experimental";
 static const char __version__[] = "0.0.1";
 
 #include "channel/ClientAPI.hpp"
+#include "repository/Repository.hpp"
+#include "debug/Verify.hpp"
+
+ClientAPI::ClientAPI() : crep() {
+	SWDEBUGP1( 5, Verify::CHANNEL, "ClientAPI::ClientAPI");
+	SWDEBUG1( 5, Verify::TRACE, "ClientAPI::ClientAPI");
+}
+
+ClientAPI::ClientAPI(const ClientInterfaceRep& cr) : crep(cr) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::ClientAPI",
+			" const ClientInterfaceRep& ");
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::ClientAPI",
+			" const ClientInterfaceRep& ");
+}
+
+ClientAPI::~ClientAPI() {
+	SWDEBUGP1( 5, Verify::CHANNEL, "ClientAPI::~ClientAPI");
+	SWDEBUG1( 5, Verify::TRACE, "ClientAPI::~ClientAPI");
+}
+
+bool operator==(const ClientAPI& lhs, const ClientAPI& rhs) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::ClientAPI",
+			" const ClientAPI&, const ClientAPI& ");
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::ClientAPI",
+			" const ClientAPI&, const ClientAPI& ");
+	return lhs.crep == rhs.crep;
+}
 
 int ClientAPI::send_request(uint32_t uid, size_t len, uint8_t* message) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::send_request",
+			" uint32_t, size_t, uint8_t* " );
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::send_request",
+			" uint32_t, size_t, uint8_t* " );
+	// std::cerr << "uid = " << uid << std::endl;
+	// std::cerr << "len = " << len << std::endl;
+	// std::cerr << "message = " << (const char*)message << std::endl;
+	IEEE2654Channel* channel = get_Channel();
+	// std::cerr << "channel->translator = " << channel->get_translator() << std::endl;
+	// dump(0);
 	if(channel != NULL) {
 		return channel->send_request(uid, len, message);
 	}
@@ -46,7 +83,13 @@ int ClientAPI::send_request(uint32_t uid, size_t len, uint8_t* message) {
 	}
 }
 
+// DONE
 int ClientAPI::handle_response(uint32_t uid, size_t len, uint8_t* message) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::handle_response",
+			" uint32_t, size_t, uint8_t* " );
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::handle_response",
+			" uint32_t, size_t, uint8_t* " );
+	Translator* translator = get_Translator();
 	if(translator != NULL) {
 		return translator->handle_response(uid, len, message);
 	}
@@ -56,6 +99,11 @@ int ClientAPI::handle_response(uint32_t uid, size_t len, uint8_t* message) {
 }
 
 int ClientAPI::handle_update_request(uint32_t uid, size_t len, uint8_t* message) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::handle_update_request",
+			" uint32_t, size_t, uint8_t* " );
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::handle_update_request",
+			" uint32_t, size_t, uint8_t* " );
+	Translator* translator = get_Translator();
 	if(translator != NULL) {
 		return translator->handle_update_request(uid, len, message);
 	}
@@ -65,6 +113,11 @@ int ClientAPI::handle_update_request(uint32_t uid, size_t len, uint8_t* message)
 }
 
 int ClientAPI::send_update_response(uint32_t uid, size_t len, uint8_t* message) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::send_update_response",
+			" uint32_t, size_t, uint8_t* " );
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::send_update_response",
+			" uint32_t, size_t, uint8_t* " );
+	IEEE2654Channel* channel = get_Channel();
 	if(channel != NULL) {
 		return channel->send_update_response(uid, len, message);
 	}
@@ -73,13 +126,36 @@ int ClientAPI::send_update_response(uint32_t uid, size_t len, uint8_t* message) 
 	}
 }
 
-int ClientAPI::set_channel(IEEE2654Channel& ch) {
-	channel = &ch;
-	return 0;
+IEEE2654Channel* ClientAPI::get_Channel() {
+	SWDEBUGP1( 5, Verify::CHANNEL, "ClientAPI::get_Channel");
+	SWDEBUG1( 5, Verify::TRACE, "ClientAPI::get_Channel");
+	Repository* rep = Repository::get_repository();
+	int ch = crep.get_channel();
+	IEEE2654Channel* channel = rep->get_Channel(ch);
+	return channel;
 }
 
-int ClientAPI::set_translator(Translator& t) {
-	translator = &t;
-	return 0;
+Translator* ClientAPI::get_Translator() {
+	SWDEBUGP1( 5, Verify::CHANNEL, "ClientAPI::get_Translator");
+	SWDEBUG1( 5, Verify::TRACE, "ClientAPI::get_Translator");
+	Repository* rep = Repository::get_repository();
+	int t = crep.get_translator();
+	Translator* translator = rep->lookup_translator(t);
+	return translator;
 }
 
+void ClientAPI::dump(size_t indent) {
+	SWDEBUGP2( 5, Verify::CHANNEL, "ClientAPI::dump",
+			" size_t " );
+	SWDEBUG2( 5, Verify::TRACE, "ClientAPI::dump",
+			" size_t " );
+	std::string ind;
+        indent == 0 ? ind = std::string(indent, '\t') : ind = std::string("");
+        std::string ind2(indent + 1, '\t');
+        std::cerr << ind << "ClientAPI contents:" << std::endl;
+        std::cerr << ind2 << "name = " << crep.get_name() << std::endl;
+        std::cerr << ind2 << "channel = " << crep.get_channel() << std::endl;
+        std::cerr << ind2 << "translator = " << crep.get_translator() << std::endl;
+        std::cerr << ind2 << "protocol = " << crep.get_protocol() << std::endl;
+        std::cerr << ind2 << "key = " << crep.get_key() << std::endl;
+}

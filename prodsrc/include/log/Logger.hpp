@@ -27,14 +27,18 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include "api/translator_api.h"
 
 
+#if 0
 enum LOG_TYPE {
 	ERROR,
 	WARNING,
 	DEBUG,
 	NOTICE
 };
+#endif
+
 class Logger {
 private:
 	static Logger* inst;
@@ -44,7 +48,7 @@ public:
 	Logger();
 	virtual ~Logger();
 
-	void log(LOG_TYPE type, const char* message);
+	int log(LOG_TYPE type, const char* message);
 	void add_stream(std::ostream* os);
 
 private:
