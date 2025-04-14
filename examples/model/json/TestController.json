@@ -1,0 +1,20 @@
+{
+    "Module" : {
+        "Name" : "TestController",
+        "HostInterface" : {
+            "Name" : "HI",
+            "Protocol" : "Imperative_EXPRESSION"
+        },
+        "DebugLibrary" : {
+            "Name" : "DLTestController"
+        },
+        "TransformLibrary" : {
+            "Name" : "TLTestController"
+        },
+        "Properties" : {
+            "visible" : "true",
+            "sticky" : "false",
+            "observable" : "true"
+        }
+    }
+}

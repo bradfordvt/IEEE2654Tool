@@ -1,0 +1,20 @@
+{
+    "Module" : {
+        "Name" : "TestTop",
+        "Channel" : {
+            "Name" : "CH",
+            "Max" : 15,
+            "Min" : 0,
+            "Protocol" : "IEEE2654.proto"
+        },
+        "Instances" : [
+            "TC" : {
+                "Module" : "TestController",
+                "HostInterface" : {
+                    "Name" : "HI",
+                    "Channel" : "CH[0]"
+                }
+            }
+        ]
+    }
+}

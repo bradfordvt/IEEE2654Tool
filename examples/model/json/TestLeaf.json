@@ -1,0 +1,36 @@
+{
+    "Module" : {
+        "Name" : "TestLeaf",
+        "ClientInterface" : {
+            "Name" : "CI",
+            "Protocol" : "BUTTON.proto"
+        },
+        "CommandInterface" : {
+            "Name" : "CMD",
+            "Protocol" : "Imperative_KEYPAD.proto"
+        },
+        "InjectInterface" : {
+            "Name" : "INJ",
+            "Protocol" : "COMMAND.proto"
+        },
+        "CommandLibrary" : {
+            "Name" : "CLTestLeaf"
+        },
+        "InjectLibrary" : {
+            "Name" : "ILTestLeaf"
+        },
+        "DebugLibrary" : {
+            "Name" : "DLTestLeaf"
+        },
+        "TransformLibrary" : {
+            "Name" : "TLTestLeaf"
+        },
+        "Properties" : [
+            "visible" : "true",
+            "sticky" : "false",
+            "observable" : "true",
+            "function" : ""
+        ]
+    }
+
+}

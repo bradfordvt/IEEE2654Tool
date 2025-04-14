@@ -1,0 +1,1371 @@
+{
+	"num_translators": 19,
+	"num_channels": 17,
+	"num_host_interfaces": 17,
+	"num_client_interfaces": 17,
+	"num_command_interfaces": 16,
+	"num_inject_interfaces": 16,
+	"translators": [
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 0,
+				"instance_name": "B0",
+               			"num_children": 0,
+				"translator_uid": 1,
+				"path": "TestTop.EXPR.RPN.B0",
+				"client": 1,
+				"hosts" : [],
+				"command_interface": 0,
+				"inject_interface": 0,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "ZERO"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 1,
+				"instance_name": "B1",
+               			"num_children": 0,
+				"translator_uid": 2,
+				"path": "TestTop.EXPR.RPN.B1",
+				"client": 2,
+				"hosts" : [],
+				"command_interface": 1,
+				"inject_interface": 1,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "ONE"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 2,
+				"instance_name": "B2",
+               			"num_children": 0,
+				"translator_uid": 3,
+				"path": "TestTop.EXPR.RPN.B2",
+				"client": 3,
+				"hosts" : [],
+				"command_interface": 2,
+				"inject_interface": 2,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "TWO"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 3,
+				"instance_name": "B3",
+               			"num_children": 0,
+				"translator_uid": 4,
+				"path": "TestTop.EXPR.RPN.B3",
+				"client": 4,
+				"hosts" : [],
+				"command_interface": 3,
+				"inject_interface": 3,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "THREE"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 4,
+				"instance_name": "B4",
+               			"num_children": 0,
+				"translator_uid": 5,
+				"path": "TestTop.EXPR.RPN.B4",
+				"client": 5,
+				"hosts" : [],
+				"command_interface": 4,
+				"inject_interface": 4,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "FOUR"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 5,
+				"instance_name": "B5",
+               			"num_children": 0,
+				"translator_uid": 1,
+				"path": "TestTop.EXPR.RPN.B5",
+				"client": 6,
+				"hosts" : [],
+				"command_interface": 5,
+				"inject_interface": 5,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "FIVE"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 6,
+				"instance_name": "B6",
+               			"num_children": 0,
+				"translator_uid": 7,
+				"path": "TestTop.EXPR.RPN.B6",
+				"client": 7,
+				"hosts" : [],
+				"command_interface": 6,
+				"inject_interface": 6,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "SIX"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 7,
+				"instance_name": "B7",
+               			"num_children": 0,
+				"translator_uid": 8,
+				"path": "TestTop.EXPR.RPN.B7",
+				"client": 8,
+				"hosts" : [],
+				"command_interface": 7,
+				"inject_interface": 7,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "SEVEN"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 8,
+				"instance_name": "B8",
+               			"num_children": 0,
+				"translator_uid": 9,
+				"path": "TestTop.EXPR.RPN.B8",
+				"client": 9,
+				"hosts" : [],
+				"command_interface": 8,
+				"inject_interface": 8,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "EIGHT"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 9,
+				"instance_name": "B9",
+               			"num_children": 0,
+				"translator_uid": 10,
+				"path": "TestTop.EXPR.RPN.B9",
+				"client": 10,
+				"hosts" : [],
+				"command_interface": 9,
+				"inject_interface": 9,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "NINE"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 10,
+				"instance_name": "BPLUS",
+               			"num_children": 0,
+				"translator_uid": 11,
+				"path": "TestTop.EXPR.RPN.BPLUS",
+				"client": 11,
+				"hosts" : [],
+				"command_interface": 10,
+				"inject_interface": 10,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "PLUS"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 11,
+				"instance_name": "BMINUS",
+               			"num_children": 0,
+				"translator_uid": 12,
+				"path": "TestTop.EXPR.RPN.BMINUS",
+				"client": 12,
+				"hosts" : [],
+				"command_interface": 11,
+				"inject_interface": 11,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "MINUS"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 12,
+				"instance_name": "BMULTIPLY",
+               			"num_children": 0,
+				"translator_uid": 13,
+				"path": "TestTop.EXPR.RPN.BMULTIPLY",
+				"client": 13,
+				"hosts" : [],
+				"command_interface": 12,
+				"inject_interface": 12,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "MULTIPLY"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 13,
+				"instance_name": "BDIVIDE",
+               			"num_children": 0,
+				"translator_uid": 14,
+				"path": "TestTop.EXPR.RPN.BDIVIDE",
+				"client": 14,
+				"hosts" : [],
+				"command_interface": 13,
+				"inject_interface": 13,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "DIVIDE"
+				},
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestLeaf",
+				"key": 14,
+				"instance_name": "BENTER",
+               			"num_children": 0,
+				"translator_uid": 15,
+				"path": "TestTop.EXPR.RPN.BENTER",
+				"client": 15,
+				"hosts" : [],
+				"command_interface": 14,
+				"inject_interface": 14,
+				"CommandLibrary": {
+					"name": "CLTestLeaf"
+				},
+				"InjectLibrary": {
+					"name": "ILTestLeaf"
+				},
+				"DebugLibrary": {
+					"name": "DLTestLeaf"
+				},
+				"TransformLibrary": {
+					"name": "TLTestLeaf"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true",
+					"function": "ENTER" },
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestDisplay",
+				"key": 15,
+				"instance_name": "DISPLAY",
+               			"num_children": 0,
+				"translator_uid": 16,
+				"path": "TestTop.EXPR.RPN.DISPLAY",
+				"client": 16,
+				"hosts" : [],
+				"command_interface": 15,
+				"inject_interface": 15,
+				"CommandLibrary": {
+					"name": "CLTestDisplay"
+				},
+				"InjectLibrary": {
+					"name": "ILTestDisplay"
+				},
+				"DebugLibrary": {
+					"name": "DLTestDisplay"
+				},
+				"TransformLibrary": {
+					"name": "TLTestDisplay"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true" },
+				"children": [
+				]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestIntermediate",
+				"key": 16,
+				"instance_name": "RPN",
+               			"num_children": 16,
+				"translator_uid": 17,
+				"path": "TestTop.EXPR.RPN",
+				"client": 0,
+				"hosts" : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+				"inject_interface": -1,
+				"DebugLibrary": {
+					"name": "DLTestIntermediate"
+				},
+				"TransformLibrary": {
+					"name": "TLTestIntermediate"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "true",
+					"observable": "true"
+				},
+				"children": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestController",
+				"key": 17,
+				"instance_name": "EXPR",
+               			"num_children": 1,
+				"translator_uid": 18,
+				"path": "TestTop.EXPR",
+				"client": -1,
+				"hosts" : [ 0 ],
+				"command_interface": -1,
+				"inject_interface": -1,
+				"DebugLibrary": {
+					"name": "DLTestController"
+				},
+				"TransformLibrary": {
+					"name": "TLTestController"
+				},
+				"properties": {
+					"visible": "true",
+					"sticky": "false",
+					"observable": "true"
+				},
+				"children": [ 17 ]
+			}
+		},
+		{
+			"Translator": {
+				"module": "TestTop",
+				"key": 18,
+				"instance_name": "TestTop",
+               			"num_children": 1,
+				"translator_uid": 19,
+				"path": "TestTop",
+				"client": -1,
+				"hosts" : [],
+				"command_interface": -1,
+				"inject_interface": -1,
+				"properties": {
+					"visible": "true"
+				},
+				"children": [ 18 ]
+			}
+		}
+	],
+	"channels": [
+		{
+			"Channel": {
+				"name": "CH[0]",
+				"key": 0,
+				"client_interface": 0,
+				"host_interface": 0,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[1]",
+				"key": 1,
+				"client_interface": 1,
+				"host_interface": 1,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[2]",
+				"key": 2,
+				"client_interface": 2,
+				"host_interface": 2,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[3]",
+				"key": 3,
+				"client_interface": 3,
+				"host_interface": 3,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[4]",
+				"key": 4,
+				"client_interface": 4,
+				"host_interface": 4,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[5]",
+				"key": 5,
+				"client_interface": 5,
+				"host_interface": 5,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[6]",
+				"key": 6,
+				"client_interface": 6,
+				"host_interface": 6,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[7]",
+				"key": 7,
+				"client_interface": 7,
+				"host_interface": 7,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[8]",
+				"key": 8,
+				"client_interface": 8,
+				"host_interface": 8,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[9]",
+				"key": 9,
+				"client_interface": 9,
+				"host_interface": 9,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[10]",
+				"key": 10,
+				"client_interface": 10,
+				"host_interface": 10,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[11]",
+				"key": 11,
+				"client_interface": 11,
+				"host_interface": 11,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[12]",
+				"key": 12,
+				"client_interface": 12,
+				"host_interface": 12,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[13]",
+				"key": 13,
+				"client_interface": 13,
+				"host_interface": 13,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[14]",
+				"key": 14,
+				"client_interface": 14,
+				"host_interface": 14,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[15]",
+				"key": 15,
+				"client_interface": 15,
+				"host_interface": 15,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		},
+		{
+			"Channel": {
+				"name": "CH[16]",
+				"key": 16,
+				"client_interface": 16,
+				"host_interface": 16,
+				"protocol": "IEEE2654.proto",
+				"method": "reference"
+			}
+		}
+	],
+	"host_interfaces": [
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.HI",
+				"key": 0,
+				"channel": 0,
+				"translator": 18,
+				"protocol": "Imperative_EXPRESSION.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[0]",
+				"key": 1,
+				"channel": 1,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[1]",
+				"key": 2,
+				"channel": 2,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[2]",
+				"key": 3,
+				"channel": 3,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[3]",
+				"key": 4,
+				"channel": 4,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[4]",
+				"key": 5,
+				"channel": 5,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[5]",
+				"key": 6,
+				"channel": 6,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[6]",
+				"key": 7,
+				"channel": 7,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[7]",
+				"key": 8,
+				"channel": 8,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[8]",
+				"key": 9,
+				"channel": 9,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[9]",
+				"key": 10,
+				"channel": 10,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[10]",
+				"key": 11,
+				"channel": 11,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[11]",
+				"key": 12 ,
+				"channel": 12,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[12]",
+				"key": 13,
+				"channel": 13,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[13]",
+				"key": 14,
+				"channel": 14,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[14]",
+				"key": 15,
+				"channel": 15,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"host_interface": {
+				"name": "TestTestTop.EXPR.RPN.HI[15]",
+				"key": 16,
+				"channel": 16,
+				"translator": 17,
+				"protocol": "BUTTON.proto"
+			}
+		}
+	],
+	"client_interfaces": [
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.CI",
+				"key": 0,
+				"channel": 0,
+				"translator": 17,
+				"protocol": "Imperative_EXPRESSION.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B0.CI",
+				"key": 1,
+				"channel": 1,
+				"translator": 1,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B1.CI",
+				"key": 2,
+				"channel": 2,
+				"translator": 2,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B2.CI",
+				"key": 3,
+				"channel": 3,
+				"translator": 3,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B3.CI",
+				"key": 4,
+				"channel": 4,
+				"translator": 4,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B4.CI",
+				"key": 5,
+				"channel": 5,
+				"translator": 5,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B5.CI",
+				"key": 6,
+				"channel": 6,
+				"translator": 6,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B6.CI",
+				"key": 7,
+				"channel": 7,
+				"translator": 7,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B7.CI",
+				"key": 8,
+				"channel": 8,
+				"translator": 8,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B8.CI",
+				"key": 9,
+				"channel": 9,
+				"translator": 9,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.B9.CI",
+				"key": 10,
+				"channel": 10,
+				"translator": 10,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.BPLUS.CI",
+				"key": 11,
+				"channel": 11,
+				"translator": 11,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.BMINUS.CI",
+				"key": 12,
+				"channel": 12,
+				"translator": 12,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.BMULTIPLY.CI",
+				"key": 13,
+				"channel": 13,
+				"translator": 13,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.BDIVIDE.CI",
+				"key": 14,
+				"channel": 14,
+				"translator": 14,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.BENTER.CI",
+				"key": 15,
+				"channel": 15,
+				"translator": 15,
+				"protocol": "BUTTON.proto"
+			}
+		},
+		{
+			"client_interface": {
+				"name": "TestTop.EXPR.RPN.DISPLAY.CI",
+				"key": 16 ,
+				"channel": 16,
+				"translator": 16,
+				"protocol": "BUTTON.proto"
+			}
+		}
+	],
+	"command_interfaces": [
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B0.CMD",
+				"key": 0,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 1
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B1.CMD",
+				"key": 1,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 2
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B2.CMD",
+				"key": 2,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 3
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B3.CMD",
+				"key": 3,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 4
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B4.CMD",
+				"key": 4,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 5
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B5.CMD",
+				"key": 5,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 6
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B6.CMD",
+				"key": 6,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 7
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B7.CMD",
+				"key": 7,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 8
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B8.CMD",
+				"key": 8,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 9
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.B9.CMD",
+				"key": 9,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 10
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.BPLUS.CMD",
+				"key": 10,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 11
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.BMINUS.CMD",
+				"key": 11,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 12
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.BMULTIPLY.CMD",
+				"key": 12,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 13
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.BDIVIDE.CMD",
+				"key": 13,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 14
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.BENTER.CMD",
+				"key": 14,
+				"protocol": "Imperative_KEYPAD.proto",
+				"translator": 15
+			}
+		},
+		{
+			"command_interface": {
+				"name": "TestTop.EXPR.RPN.DISPLAY.CMD",
+				"key": 15,
+				"protocol": "Imperative_DISPLAY.proto",
+				"translator": 16
+			}
+		}
+	],
+	"inject_interfaces": [
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B0.INJ",
+				"key": 0,
+				"protocol": "COMMAND.proto",
+				"translator": 1
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B1.INJ",
+				"key": 1,
+				"protocol": "COMMAND.proto",
+				"translator": 2
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B2.INJ",
+				"key": 2,
+				"protocol": "COMMAND.proto",
+				"translator": 3
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B3.INJ",
+				"key": 3,
+				"protocol": "COMMAND.proto",
+				"translator": 4
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B4.INJ",
+				"key": 4,
+				"protocol": "COMMAND.proto",
+				"translator": 5
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B5.INJ",
+				"key": 5,
+				"protocol": "COMMAND.proto",
+				"translator": 6
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B6.INJ",
+				"key": 6,
+				"protocol": "COMMAND.proto",
+				"translator": 1
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B0.INJ",
+				"key": 7,
+				"protocol": "COMMAND.proto",
+				"translator": 7
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B7.INJ",
+				"key": 8,
+				"protocol": "COMMAND.proto",
+				"translator": 8
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B8.INJ",
+				"key": 9,
+				"protocol": "COMMAND.proto",
+				"translator": 9
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.B9.INJ",
+				"key": 10,
+				"protocol": "COMMAND.proto",
+				"translator": 10
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.BPLUS.INJ",
+				"key": 11,
+				"protocol": "COMMAND.proto",
+				"translator": 11
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.BMINUS.INJ",
+				"key": 12,
+				"protocol": "COMMAND.proto",
+				"translator": 12
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.BMULTIPLY.INJ",
+				"key": 13,
+				"protocol": "COMMAND.proto",
+				"translator": 13
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.BDIVIDE.INJ",
+				"key": 14,
+				"protocol": "COMMAND.proto",
+				"translator": 14
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.BENTER.INJ",
+				"key": 15,
+				"protocol": "COMMAND.proto",
+				"translator": 15
+			}
+		},
+		{
+			"inject_interface": {
+				"name": "TestTop.EXPR.RPN.DISPLAY.INJ",
+				"key": 16,
+				"protocol": "DISPLAY_COMMAND.proto",
+				"translator": 16
+			}
+		}
+	],
+	"translator": 19
+}

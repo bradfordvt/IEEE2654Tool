@@ -1,0 +1,20 @@
+module TestIntermediate {
+	Parameter num_hosts = 14;
+	ClientInterface CI {
+		Protocol Imperative_EXPRESSION.proto;
+	}
+
+	HostInterface HI[$num_hosts-1:0] {
+		Protocol BUTTON.proto;
+	}
+
+	DebugLibrary DLTestIntermediate {
+	}
+
+	TransformLibrary TLTestIntermediate {
+	}
+		
+	Property visible = "true";  // show in tree path
+	Property sticky = "false";  // values don't persist after update
+	Property observable ="true";
+}

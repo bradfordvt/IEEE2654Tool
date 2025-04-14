@@ -1,0 +1,15 @@
+module TestController {
+	HostInterface HI {
+		Protocol Imperative_EXPRESSION.proto;
+	}
+
+	DebugLibrary DLTestController {
+	}
+
+	TransformLibrary TLTestController {
+	}
+		
+	Property visible = "true";  // show in tree path
+	Property sticky = "false";  // values don't persist after update
+	Property observable ="true";
+}

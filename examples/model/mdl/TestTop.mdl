@@ -1,0 +1,110 @@
+module TestTop {
+	Channel CH[16:0] {
+		Protocol IEEE2654.proto;
+	}
+
+	Instance EXPR OF TestController {
+		HostInterface HI = CH[0];
+	}
+
+	Instance RPN OF TestIntermediate {
+		ClientInterface CI = CH[0];
+		HostInterface HI[0] = CH[1];
+		HostInterface HI[1] = CH[2];
+		HostInterface HI[2] = CH[3];
+		HostInterface HI[3] = CH[4];
+		HostInterface HI[4] = CH[5];
+		HostInterface HI[5] = CH[6];
+		HostInterface HI[6] = CH[7];
+		HostInterface HI[7] = CH[8];
+		HostInterface HI[8] = CH[9];
+		HostInterface HI[9] = CH[10];
+		HostInterface HI[10] = CH[11];
+		HostInterface HI[11] = CH[12];
+		HostInterface HI[12] = CH[13];
+		HostInterface HI[13] = CH[14];
+		HostInterface HI[14] = CH[15];
+		HostInterface HI[15] = CH[16];
+	}
+
+	Instance B0 OF TestLeaf {
+		ClientInterface CI = CH[1];
+		Property function = "ZERO";
+	}
+
+	Instance B1 OF TestLeaf {
+		ClientInterface CI = CH[2];
+		Property function = "ONE";
+	}
+
+	Instance B2 OF TestLeaf {
+		ClientInterface CI = CH[3];
+		Property function = "TWO";
+	}
+
+	Instance B3 OF TestLeaf {
+		ClientInterface CI = CH[4];
+		Property function = "THREE";
+	}
+
+	Instance B4 OF TestLeaf {
+		ClientInterface CI = CH[5];
+		Property function = "FOUR";
+	}
+
+	Instance B5 OF TestLeaf {
+		ClientInterface CI = CH[6];
+		Property function = "FIVE";
+	}
+
+	Instance B6 OF TestLeaf {
+		ClientInterface CI = CH[7];
+		Property function = "SIX";
+	}
+
+	Instance B7 OF TestLeaf {
+		ClientInterface CI = CH[8];
+		Property function = "SEVEN";
+	}
+
+	Instance B8 OF TestLeaf {
+		ClientInterface CI = CH[9];
+		Property function = "EIGHT";
+	}
+
+	Instance B9 OF TestLeaf {
+		ClientInterface CI = CH[10];
+		Property function = "NINE";
+	}
+
+	Instance BPLUS OF TestLeaf {
+		ClientInterface CI = CH[11];
+		Property function = "PLUS";
+	}
+
+	Instance BMINUS OF TestLeaf {
+		ClientInterface CI = CH[12];
+		Property function = "MINUS";
+	}
+
+	Instance BMULTIPLY OF TestLeaf {
+		ClientInterface CI = CH[13];
+		Property function = "MULTIPLY";
+	}
+
+	Instance BDIVIDE OF TestLeaf {
+		ClientInterface CI = CH[14];
+		Property function = "DIVIDE";
+	}
+
+	Instance BENTER OF TestLeaf {
+		ClientInterface CI = CH[15];
+		Property function = "ENTER";
+	}
+
+	Instance DISPLAY OF TestDisplay {
+		ClientInterface CI = CH[16];
+	}
+
+	Property visible = "false";  // show in tree path
+}

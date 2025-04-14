@@ -1,0 +1,30 @@
+module TestLeaf {
+	ClientInterface CI {
+		Protocol BUTTON.proto;
+	}
+
+	CommandInterface CMD {
+		Protocol Imperative_KEYPAD.proto;
+	}
+
+	InjectInterface INJ {
+		Protocol COMMAND.proto;
+	}
+
+	CommandLibrary CLTestLeaf {
+	}
+
+	InjectLibrary ILTestLeaf {
+	]
+
+	DebugLibrary DLTestLeaf {
+	}
+
+	TransformLibrary TLTestLeaf {
+	}
+
+	Property visible = "true";  // show in tree path
+	Property sticky = "false";  // values don't persist after update
+	Property observable ="true";
+	Property function = "";
+}

@@ -1,0 +1,24 @@
+module button {
+	ClientInterface CI {
+		Protocol BUTTON.proto;
+	}
+	CommandInterface CMD {
+		Protocol Imperative_KEYPAD.proto;
+	}
+	CommandLibrary CLTestLeaf {
+		Protocol COMMAND.proto;
+	}
+	InjectLibrary ILTestLeaf {
+		Protocol BUTTON.proto;
+	]
+	DebugLibrary DLTestLeaf {
+		Protocol BUTTON.proto;
+		Protocol COMMAND.PROTO;
+	}
+	TransformLibrary TLTestLeaf {
+	}
+	Property visible = "true";  // show in tree path
+	Property sticky = "false";  // values don't persist after update
+	Property observable ="true";
+	Property function = "";
+}
