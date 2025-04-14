@@ -1,0 +1,43 @@
+@startuml
+IEEE2654Tool -> CommandBus: send_command_request(target)
+CommandBus -> Translator: handle_command_request(target)
+Translator -> CommandLibrary: handle_command_request(c_inst)
+loop Until all inject messages for the command has been processed
+    CommandLibrary -> Translator: send_inject_request(c_inst)
+    Translator -> Translator: handle_inject_request(uid)
+    Translator -> InjectLibrary: handle_inject_request(i_inst)
+    loop Untill all new domain messages are handled for request
+        InjectLibrary -> Translator: inject_send_request(i_inst)
+        Translator -> ClientAPI: send_request(uid)
+        ClientAPI -> IEEE2654Channel: send_request(uid)
+        == Transmit Message Over Medium ==
+        IEEE2654Channel -> IEEE2654Channel: handle_request(uid)
+        == Received Message From Medium ==
+        IEEE2654Channel -> HostAPI: handle_request(uid)
+        HostAPI -> Translator: handle_request(uid)
+        Translator -> TransformLibrary: handle_request(t_inst)
+        TransformLibrary -> TransformLibrary: __handle_meta_request()
+        TransformLibrary -> Translator: transform_send_request(inst)
+        Translator -> ClientAPI: send_request(uid)
+        == Process New Request By Parent ==
+        ClientAPI --> Translator: handle_response(uid)
+        Translator --> TransformLibrary: handle_response(t_inst)
+        TransformLibrary --> Translator: send_response(t_inst)
+        Translator --> HostAPI: send_response(uid)
+        HostAPI --> IEEE2654Channel: send_response(uid)
+        == Transmit Message Over Medium ==
+        IEEE2654Channel --> IEEE2654Channel: handle_response(uid)
+        == Received Message From Medium ==
+        IEEE2654Channel --> ClientAPI: handle_response(uid)
+        ClientAPI --> Translator: handle_response(uid)
+        Translator --> InjectLibrary: handle_response(i_inst)
+        InjectLibrary --> InjectLibrary: __handle_meta_response()
+        InjectLibrary --> Translator: send_inject_response(i_inst)
+        Translator --> CommandLibrary: handle_inject_response(c_inst)
+    end
+end
+CommandLibrary --> Translator: send_command_response(c_inst)
+Translator --> Translator: handle_command_response(target)
+Translator --> CommandBus: send_command_response(target)
+CommandBus --> CommandBus: handle_command_response(target)
+@enduml

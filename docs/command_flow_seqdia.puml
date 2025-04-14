@@ -1,0 +1,65 @@
+@startuml
+IEEE2654Tool -> CommandBus: send_command_request(target)
+CommandBus -> CommandInterface: send_command_request(target)
+CommandInterface -> CommandInterface: handle_command_request(target)
+CommandInterface -> Translator: handle_command_request(target)
+Translator -> CommandLibraryWrapper: handle_command_request()
+CommandLibraryWrapper -> CommandLibrary: handle_command_request(c_inst)
+loop Until all inject messages for the command has been processed
+    CommandLibrary -> CommandLibraryWrapper: send_inject_request(c_inst)
+    CommandLibraryWrapper -> Translator: send_inject_request()
+    Translator -> InjectInterface: send_inject_request()
+    InjectInterface -> InjectInterface: handle_inject_request()
+    InjectInterface -> Translator: handle_inject_request()
+    Translator -> InjectLibraryWrapper: handle_inject_request()
+    InjectLibraryWrapper -> InjectLibrary: handle_inject_request(i_inst)
+    loop Until all new domain messages are handled for request
+        InjectLibrary -> InjectLibraryWrapper: inject_send_request(i_inst)
+        InjectLibraryWrapper -> Translator: inject_send_request()
+        Translator -> ClientAPI: send_request(uid)
+        ClientAPI -> IEEE2654Channel: send_request(uid)
+        == Transmit Message Over Medium ==
+        IEEE2654Channel -> IEEE2654Channel: handle_request(uid)
+        == Received Message From Medium ==
+        IEEE2654Channel -> HostAPI: handle_request(uid)
+        HostAPI -> Translator: handle_request(uid)
+        Translator -> TransformLibraryWrapper: handle_request()
+        TransformLibraryWrapper -> TransformLibrary: handle_request(t_inst)
+        TransformLibrary -> TransformLibrary: __handle_meta_request()
+        TransformLibrary -> TransformLibraryWrapper: transform_send_request(t_inst)
+        TransformLibraryWrapper -> Translator: transform_send_request()
+        Translator -> ClientAPI: send_request(uid)
+        == Process New Request By Parent ==
+        ClientAPI --> Translator: handle_response(uid)
+        Translator --> TransformLibraryWrapper: handle_response()
+        TransformLibraryWrapper --> TransformLibrary: handle_response(t_inst)
+        == send response to child ==
+        TransformLibrary --> TransformLibraryWrapper: send_response(t_inst)
+        TransformLibraryWrapper --> Translator: send_response()
+        Translator --> HostAPI: send_response(uid)
+        HostAPI --> IEEE2654Channel: send_response(uid)
+        == Transmit Message Over Medium ==
+        IEEE2654Channel --> IEEE2654Channel: handle_response(uid)
+        == Received Message From Medium ==
+        IEEE2654Channel --> ClientAPI: handle_response(uid)
+        ClientAPI --> Translator: handle_response(uid)
+        Translator --> InjectLibraryWrapper: handle_response()
+        InjectLibraryWrapper --> InjectLibrary: handle_response(i_inst)
+        InjectLibrary --> InjectLibrary: __handle_meta_response()
+        InjectLibrary --> InjectLibraryWrapper: send_inject_response(i_inst)
+        InjectLibraryWrapper --> Translator: send_inject_response()
+        Translator --> CommandInterface: send_inject_response()
+        CommandInterface --> CommandInterface: handle_inject_response()
+        CommandInterface --> Translator: handle_inject_response()
+        Translator --> CommandLibraryWrapper: handle_inject_response()
+        CommandLibraryWrapper --> CommandLibrary: handle_inject_response(c_inst)
+    end
+end
+CommandLibrary --> CommandLibraryWrapper: send_command_response(c_inst)
+CommandLibraryWrapper --> Translator: send_command_response()
+Translator --> Translator: handle_command_response(target)
+Translator --> CommandInterface: send_command_response(target)
+CommandInterface --> CommandInterface: handle_command_response(target)
+CommandInterface --> CommandBus: handle_command_response(target)
+CommandBus --> IEEE2654Tool: handle_command_response()
+@enduml
