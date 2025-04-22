@@ -47,5 +47,6 @@ prodsrc/protodef/generated/*.cc
 *.backup
 !bin/README.md
 !build/README.md
+!prodsrc/protodef/generated/CMakeLists.txt
 /prodsrc/plug-ins/TLTestIntermediate/foo
-/binREADME.md
+/bin/README.md
