@@ -57,7 +57,6 @@ static const char *		SUFFIX0 = " )";
 
 Verify::Verify( ) : trace(0) {
 	if( getRefCnt() == 0 ) {
-		incRefCnt();
 		debug_statics_init();
 		/*
 		 *	All Verify static members will be initialized
@@ -67,6 +66,7 @@ Verify::Verify( ) : trace(0) {
 		 */
 		// Verify::createAppInfo( );
 	}
+	incRefCnt();
 	incCurrentLevel();
 	level = getCurrentLevel();
 }
@@ -134,7 +134,9 @@ int Verify::initValue( const std::string& init_thresh )
 			ret_val = type_value;
 		    }
 		    else
+		    {
 			ret_val = setValue( type_value, type_name.c_str() );
+		    }
 		}
 	    }
 	}

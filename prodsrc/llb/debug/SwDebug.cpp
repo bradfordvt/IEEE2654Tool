@@ -79,9 +79,9 @@ SwDebug::SwDebug( unsigned threshold, Verify::DebugTypes type,
  */
 
 SwDebug::SwDebug( unsigned threshold, Verify::DebugTypes type,
-			const char* func_name, const char* mesg )
+			const char* func_name, const char* mesg ) : funcname(func_name)
 {
-	funcname = std::string(func_name);
+	// funcname = func_name;
 
 	if ( threshold <= getValue( type ) )
 	{

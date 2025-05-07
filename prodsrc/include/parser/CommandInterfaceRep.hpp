@@ -26,6 +26,7 @@
 #define INCLUDE_PARSER_COMMANDINTERFACEREP_HPP_
 
 #include <string>
+#include <cstdint>
 
 class CommandInterfaceRep {
 #ifdef TEST

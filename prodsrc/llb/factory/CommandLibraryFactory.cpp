@@ -53,10 +53,6 @@ void* CommandLibraryFactory::create_handle(const char* lib_basename) {
     using std::cout;
     using std::cerr;
 
-    // cout << "C++ dlopen demo\n\n";
-
-    // open the library
-    // cout << "Opening " << lib_basename << ".so...\n";
     PathManager *pm_p = PathManager::get_PathManager();
     const std::vector<std::string>& pi_path = pm_p->get_plugin_search_path();
     std::string s;
@@ -67,7 +63,7 @@ void* CommandLibraryFactory::create_handle(const char* lib_basename) {
 	    s += "/lib";
 	    s += lib_basename;
 	    s += ".so";
-	    cerr << "s = " << s << std::endl;
+	    // open the library
 	    handle = dlopen(s.c_str(), RTLD_LAZY);
 
 	    if (!handle) {
@@ -79,7 +75,6 @@ void* CommandLibraryFactory::create_handle(const char* lib_basename) {
 	    cerr << "CommandLibraryFactory: not found!" << std::endl;
 	    return NULL;
     }
-    cerr << "handle created successfully at: " << handle << "\n";
     return handle;
 }
 
@@ -104,7 +99,6 @@ struct command_library_api* CommandLibraryFactory::get_api(void* handle) {
     using std::cerr;
 
     // load the symbol
-    // cout << "Loading symbol cla...\n";
     typedef struct command_library_api*  (*fn)();
 
     // reset errors
@@ -116,7 +110,6 @@ struct command_library_api* CommandLibraryFactory::get_api(void* handle) {
         dlclose(handle);
         return NULL;
     }
-    // cout << "Calling get_command_library_api...\n";
     struct command_library_api* cla = (*f)();
     return cla;
 }

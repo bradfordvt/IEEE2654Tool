@@ -37,6 +37,7 @@ class Repository_TestCases : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST( Repository_003 );
 	CPPUNIT_TEST( parse_001 );
 	CPPUNIT_TEST( parse_002 );
+	CPPUNIT_TEST( insert_Channel_001 );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -64,6 +65,7 @@ protected:
 	void Repository_003();
 	void parse_001();
 	void parse_002();
+	void insert_Channel_001();
 
 private:
 	// Put helper functions here

@@ -41,6 +41,7 @@ static const char __version__[] = "0.0.1";
 
 TranslatorRep::TranslatorRep() : module_name(), instance_name(), path(),
 				num_children(0), translator_uid(-1),
+				key(-1),
 				client(-1), command_interface(-1),
 				inject_interface(-1),
 				cmdlib(), injlib(), dbglib(), trmlib(),
@@ -54,6 +55,7 @@ TranslatorRep::TranslatorRep() : module_name(), instance_name(), path(),
 
 TranslatorRep::TranslatorRep(const std::string& _module_name, const std::string& _instance_name, const std::string& _path) :
 				num_children(0), translator_uid(-1),
+				key(-1),
 				client(-1), command_interface(-1),
 				inject_interface(-1),
 				cmdlib(), injlib(), dbglib(), trmlib(),
@@ -77,6 +79,7 @@ TranslatorRep::TranslatorRep(const TranslatorRep& t) {
 	SWDEBUG2( 5, Verify::TRACE, "TranslatorRep::TranslatorRep",
                         " const TranslatorRep& " );
 	module_name = t.module_name;
+	key = t.key;
 	instance_name = t.instance_name;
 	path = t.path;
 	num_children = t.num_children;
@@ -106,6 +109,7 @@ TranslatorRep& TranslatorRep::operator=(const TranslatorRep& t) {
 	SWDEBUG2( 5, Verify::TRACE, "TranslatorRep::operator=",
                         " const TranslatorRep& " );
 	module_name = t.module_name;
+	key = t.key;
 	instance_name = t.instance_name;
 	path = t.path;
 	num_children = t.num_children;
@@ -410,6 +414,7 @@ void TranslatorRep::dump(size_t indent) {
         std::string ind3(indent + 2, '\t');
         std::cerr << ind << "TranslatorRep contents:" << std::endl;
         std::cerr << ind2 << "module_name = " << module_name << std::endl;
+        std::cerr << ind2 << "key = " << key << std::endl;
         std::cerr << ind2 << "instance_name = " << instance_name << std::endl;
         std::cerr << ind2 << "path = " << path << std::endl;
         std::cerr << ind2 << "key = " << key << std::endl;

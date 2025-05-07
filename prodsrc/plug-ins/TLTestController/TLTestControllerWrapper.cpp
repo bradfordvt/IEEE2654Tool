@@ -34,6 +34,8 @@ static const char __version__[] = "0.0.1";
 #include "api/transform_library_api.h"
 #include "TLTestController.hpp"
 
+#include "debug/SwDebugLib.hpp"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -53,7 +55,6 @@ extern "C" {
 	}
 
 #define TEST_MY_THIS() TLTestController* my_this = (TLTestController*)(inst->private_data);\
-	std::cerr << "TEST_MY_THIS" << std::endl; \
 	if(my_this == NULL) {\
 		std::cerr << "my_this(1) == NULL " << std::endl; \
 		my_this = new TLTestController();\
@@ -68,6 +69,8 @@ extern "C" {
 
 transform_instance* get_transform_instance( int translator_uid )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestController::get_transform_instance",
+			" int translator_uid ");
 	transform_instance* inst = (transform_instance*)malloc(sizeof(transform_instance));
 	inst->translator_uid = translator_uid;
 	inst->error_code = translator_success;
@@ -78,82 +81,104 @@ transform_instance* get_transform_instance( int translator_uid )
 
 int my_open( struct transform_instance* inst, struct translator_transform_api* tt_api )
 {
-	std::cerr << "Entering TLTestControllerWrapper::open()" << std::endl;
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::my_open",
+			" struct transform_instance*, struct translator_transform_api* ");
 	TEST_MY_THIS()
-	std::cerr << "Calling TLTestController::open()" << std::endl;
 	return my_this->open(inst, tt_api);
 }
 
 int my_close( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::my_close",
+			" struct transform_instance* ");
 	MY_THIS(inst, -1)
 	return my_this->close();
 }
 
 int config( struct transform_instance* inst, char* json_message )
 {
-	std::cerr << "Entering TLTestControllerWrapper::config()" << std::endl;
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::config",
+			" struct transform_instance*, char* ");
 	MY_THIS(inst, -1)
-	std::cerr << "Calling TLTestController::config()" << std::endl;
 	return my_this->config(json_message);
 }
 
 int my_select( struct transform_instance* inst, uint32_t index )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::my_select",
+			" struct transform_instance*, uint32_t ");
 	MY_THIS(inst, -1)
 	return my_this->select(index);
 }
 
 int deselect( struct transform_instance* inst, uint32_t index )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::deselect",
+			" struct transform_instance*, uint32_t ");
 	MY_THIS(inst, -1)
 	return my_this->deselect(index);
 }
 
 bool is_selected( struct transform_instance* inst, uint32_t uid )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::is_selected",
+			" struct transform_instance*, uint32_t ");
 	MY_THIS(inst, false)
 	return my_this->is_selected(uid);
 }
 
 enum translator_error_code get_error_code( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::get_error_code",
+			" struct transform_instance* ");
 	MY_THIS(inst, translator_error)
 	return my_this->get_error_code();
 }
 
 const char* get_error_string( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::get_error_string",
+			" struct transform_instance* ");
 	MY_THIS(inst, "")
 	return my_this->get_error_string();
 }
 
 enum translator_status get_status_code( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::get_status_code",
+			" struct transform_instance* ");
 	MY_THIS(inst, translator_failed)
 	return my_this->get_status_code();
 }
 
 const char* get_status_string( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::get_status_string",
+			" struct transform_instance* ");
 	MY_THIS(inst, "")
 	return my_this->get_status_string();
 }
 
 int handle_request( struct transform_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::handle_request",
+			" struct transform_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_request(len, message);
 }
 
 int handle_response( struct transform_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::handle_response",
+			" struct transform_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_response(len, message);
 }
 
 int apply( struct transform_instance* inst )
 {
+	SWDEBUG2( struct transform_instance, NULL, "TLTestControllerWrapper::apply",
+			" struct transform_instance* ");
 	MY_THIS(inst, -1)
 	return my_this->apply();
 }
@@ -180,6 +205,7 @@ static transform_library_api tla = {
 
 struct transform_library_api* get_transform_library_api()
 {
+	SWDEBUG1( struct transform_instance, NULL, "TLTestControllerWrapper::get_transform_library_api");
 	return &tla;
 }
 

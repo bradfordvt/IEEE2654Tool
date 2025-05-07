@@ -34,6 +34,8 @@ static const char __version__[] = "0.0.1";
 #include "api/inject_library_api.h"
 #include "ILTestDisplay.hpp"
 
+#include "debug/SwDebugLib.hpp"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -63,6 +65,8 @@ extern "C" {
 
 inject_instance* get_inject_instance( int translator_uid )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::get_inject_instance",
+			" int translator_uid ");
 	inject_instance* inst = (inject_instance*)malloc(sizeof(inject_instance));
 	inst->translator_uid = translator_uid;
 	inst->error_code = translator_success;
@@ -73,96 +77,128 @@ inject_instance* get_inject_instance( int translator_uid )
 
 int my_open( struct inject_instance* inst, struct translator_inject_api* ti_api )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::my_open",
+			" struct inject_instance*, struct translator_inject_api* ");
 	TEST_MY_THIS()
 	return my_this->open(inst, ti_api);
 }
 
 int my_close( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::my_close",
+			" struct inject_instance* ");
 	MY_THIS(inst, -1)
 	return my_this->close();
 }
 
 int config( struct inject_instance* inst, char* json_message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::config",
+			" struct inject_instance*, char* ");
 	MY_THIS(inst, -1)
 	return my_this->config(json_message);
 }
 
 int my_select( struct inject_instance* inst, uint32_t index )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::my_select",
+			" struct inject_instance*, uint32_t ");
 	MY_THIS(inst, -1)
 	return my_this->select(index);
 }
 
 int deselect( struct inject_instance* inst, uint32_t index )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::deselect",
+			" struct inject_instance*, uint32_t ");
 	MY_THIS(inst, -1)
 	return my_this->deselect(index);
 }
 
 bool is_selected( struct inject_instance* inst, uint32_t uid )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::is_selected",
+			" struct inject_instance*, uint32_t ");
 	MY_THIS(inst, false)
 	return my_this->is_selected(uid);
 }
 
 enum translator_error_code get_error_code( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::get_error_code",
+			" struct inject_instance* ");
 	MY_THIS(inst, translator_error)
 	return my_this->get_error_code();
 }
 
 const char* get_error_string( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::get_error_string",
+			" struct inject_instance* ");
 	MY_THIS(inst, "")
 	return my_this->get_error_string();
 }
 
 enum translator_status get_status_code( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::get_status_code",
+			" struct inject_instance* ");
 	MY_THIS(inst, translator_failed)
 	return my_this->get_status_code();
 }
 
 const char* get_status_string( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::get_status_string",
+			" struct inject_instance* ");
 	MY_THIS(inst, "")
 	return my_this->get_status_string();
 }
 
 int handle_request( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::handle_request",
+			" struct inject_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_request(len, message);
 }
 
 int handle_response( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::handle_response",
+			" struct inject_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_response(len, message);
 }
 
 int handle_update_request( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::handle_update_request",
+			" struct inject_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_update_request(len, message);
 }
 
 int handle_update_response( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::handle_update_response",
+			" struct inject_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_update_response(len, message);
 }
 
 int handle_inject_request( struct inject_instance* inst, size_t len, uint8_t* message )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::handle_inject_request",
+			" struct inject_instance*, size_t, uint8_t* ");
 	MY_THIS(inst, -1)
 	return my_this->handle_inject_request(len, message);
 }
 
 int apply( struct inject_instance* inst )
 {
+	SWDEBUG2( struct inject_instance, NULL, "ILTestDisplayWrapper::apply",
+			" struct inject_instance* ");
 	MY_THIS(inst, -1)
 	return my_this->apply();
 }
@@ -192,6 +228,7 @@ static inject_library_api ila = {
 
 struct inject_library_api* get_inject_library_api()
 {
+	SWDEBUG1( struct inject_instance, NULL, "ILTestDisplayWrapper::get_inject_library_api");
 	return &ila;
 }
 

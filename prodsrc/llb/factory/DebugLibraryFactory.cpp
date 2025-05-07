@@ -40,6 +40,7 @@ static const char __version__[] = "0.0.1";
 #include "debug_library_wrapper.h"
 
 #include "factory/DebugLibraryFactory.hpp"
+#include "builder/PathManager.hpp"
 #include "debug/Verify.hpp"
 
 
@@ -51,21 +52,28 @@ void* DebugLibraryFactory::create_handle(const char* lib_basename) {
     using std::cout;
     using std::cerr;
 
-    // cout << "C++ dlopen demo\n\n";
+    PathManager *pm_p = PathManager::get_PathManager();
+    const std::vector<std::string>& pi_path = pm_p->get_plugin_search_path();
+    std::string s;
+    void* handle = NULL;
+    auto b = begin(pi_path);
+    for( ; b != end(pi_path); b++) {
+	    s = *b;
+	    s += "/lib";
+	    s += lib_basename;
+	    s += ".so";
+	    // open the library
+	    handle = dlopen(s.c_str(), RTLD_LAZY);
 
-    // open the library
-    // cout << "Opening " << lib_basename << ".so...\n";
-    std::string s("./plugins/lib");
-    s += lib_basename;
-    s += ".so";
-    // cerr << "s = " << s << "\n";
-    void* handle = dlopen(s.c_str(), RTLD_LAZY);
-
-    if (!handle) {
-        cerr << "Cannot open library: " << dlerror() << '\n';
-        return NULL;
+	    if (!handle) {
+		cerr << "Cannot open library: " << dlerror() << '\n';
+		continue;
+	    }
     }
-    // cerr << "handle created successfully at: " << handle << "\n";
+    if(!handle) {
+	    cerr << "DebugLibraryFactory: not found!" << std::endl;
+	    return NULL;
+    }
     return handle;
 }
 

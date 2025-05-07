@@ -223,10 +223,12 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 	t_uid = trep.get_translator_uid();
 	// client_nds = trep.get_client();;
 	mode = 0;
+#if 0
 	t_inst = NULL;
 	d_inst = NULL;
 	i_inst = NULL;
 	c_inst = NULL;
+#endif
 }
 
 Translator::~Translator() {
@@ -1050,6 +1052,7 @@ void Translator::dump(size_t indent) {
         std::cerr << ind2 << "tiapi = " << (void*)&tiapi << std::endl;
         std::cerr << ind2 << "tdapi = " << (void*)&tdapi << std::endl;
         std::cerr << ind2 << "tcapi = " << (void*)&tcapi << std::endl;
+#if 0
         std::cerr << ind2 << "tlib_handle = " << (void*)tlib_handle << std::endl;
         std::cerr << ind2 << "dlib_handle = " << (void*)dlib_handle << std::endl;
         std::cerr << ind2 << "ilib_handle = " << (void*)ilib_handle << std::endl;
@@ -1062,8 +1065,11 @@ void Translator::dump(size_t indent) {
         std::cerr << ind2 << "d_inst = " << (void*)d_inst << std::endl;
         std::cerr << ind2 << "i_inst = " << (void*)i_inst << std::endl;
         std::cerr << ind2 << "c_inst = " << (void*)c_inst << std::endl;
+#endif
         std::cerr << ind2 << "ii_p = " << (void*)ii_p << std::endl;
         std::cerr << ind2 << "ci_p = " << (void*)ci_p << std::endl;
+        std::cerr << ind2 << "tlw_p = " << (void*)tlw_p << std::endl;
+        std::cerr << ind2 << "dlw_p = " << (void*)dlw_p << std::endl;
         std::cerr << ind2 << "ilw_p = " << (void*)ilw_p << std::endl;
         std::cerr << ind2 << "clw_p = " << (void*)clw_p << std::endl;
 	trep.dump(indent + 1);

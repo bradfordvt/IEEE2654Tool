@@ -25,7 +25,8 @@
 #ifndef INCLUDE_DEBUG_SWDEBUGLIB_HPP_
 #define INCLUDE_DEBUG_SWDEBUGLIB_HPP_
 
-#include <fstream>
+// #include <fstream>
+#include <iostream>
 
 /************************************************************************
  *	The SwDebugLib class provides a simple mechanism to permit the
@@ -71,20 +72,18 @@ private:
     std::string		funcname;
 };
 
-// #ifdef	USE_SWDEBUG
+#ifdef	USE_SWDEBUG
 #define	SWDEBUG0( T, INST )	SwDebugLib<T> swtrace( INST )
 #define	SWDEBUG1(T, INST, FUNC)	SwDebugLib<T>	swtrace( INST, FUNC )
 #define	SWDEBUG2(T, INST, FUNC, MESG)	\
 				SwDebugLib<T> swtrace( INST, FUNC, MESG )
 #define	SWDEBUG_LOG(FILENAME, MESG)     swtrace.log( FILENAME, MESG )
-/*
 #else
 #define	SWDEBUG0( T, INST )
 #define	SWDEBUG1(T, INST, FUNC)
 #define	SWDEBUG2(T, INST, FUNC, MESG)
 #define SWDEBUG_LOG(T, MESG)
 #endif
-*/
 
 /*
  *    SwDebugLib.cpp
@@ -124,9 +123,11 @@ static const char __status__[] = "Alpha/Experimental";
 static const char __version__[] = "0.0.1";
 */
 
+/*
 #include <iostream>
 #include "api/translator_api.h"
 #include "debug/SwDebugLib.hpp"
+*/
 
 static const char *		TRACE_ENTRY = "entering ";
 static const char *		TRACE_EXIT = "exiting ";

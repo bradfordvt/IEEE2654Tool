@@ -57,6 +57,7 @@ void Repository_TestCases::tearDown( ) {
 
 void Repository_TestCases::Repository_001() {
 	Repository *p = Repository::get_repository();
+	std::cerr << "p = " << (void*)p << std::endl;
 	CPPUNIT_ASSERT(p != NULL);
 }
 
@@ -70,5 +71,27 @@ void Repository_TestCases::parse_001() {
 }
 
 void Repository_TestCases::parse_002() {
+}
+
+void Repository_TestCases::insert_Channel_001() {
+	Repository *p = Repository::get_repository();
+	CPPUNIT_ASSERT(p != NULL);
+	ChannelRep cr;
+	cr.set_name(std::string("TestCH"));
+	cr.set_key(0);
+	cr.set_protocol(std::string("BUTTON.proto"));
+	cr.set_method(std::string("gRPC"));
+	cr.set_client_interface(3);
+	cr.set_host_interface(4);
+	std::cerr << "p = " << (void*)p << std::endl;
+	p->set_num_channels(1);
+	std::cerr << "Before insert_Channel call." << std::endl;
+	p->insert_Channel(cr);
+	CPPUNIT_ASSERT(p->get_num_channels() == 1);
+	std::cerr << "Before get_Channel call." << std::endl;
+	IEEE2654Channel* cp = p->get_Channel(0);
+	std::cerr << "Before dump call." << std::endl;
+	cp->dump(0);
+	std::cerr << "After dump call." << std::endl;
 }
 

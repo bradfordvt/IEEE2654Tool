@@ -369,6 +369,11 @@ bool JSONParser::__add_TopModule(TopModuleRep& tmr) {
 	SWDEBUG2( 5, Verify::TRACE, "JSONParser::__add_TopModule",
                         " TopModuleRep& " );
 	Repository* rep = Repository::get_repository();
+	int translator = tmr.get_translator();
+	Translator* tp = rep->find_translator_by_uid(translator);
+	tmr.set_module_name(tp->get_module_name());
+	rep->dump(0);
+	tmr.dump(0);
 	// Add Top Module to repository
 	Translator* t_p = rep->set_TopModule(tmr);
 	if(t_p == NULL) return false;

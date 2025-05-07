@@ -27,6 +27,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 #include "parser/TransformLibraryRep.hpp"
 #include "parser/DebugLibraryRep.hpp"

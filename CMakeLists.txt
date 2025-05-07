@@ -6,6 +6,11 @@ cmake_minimum_required( VERSION 3.10 )
 # Workspace is IEEE2654Tool
 project( IEEE2654Tool VERSION 0.0.1 LANGUAGES CXX )
 
+find_package(Python COMPONENTS Interpreter Development)
+set(Python_VERSION_CORE "Python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
+set(Python_LIBRARY_NAME "python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
+set(Protobuf_DEBUG 1)
+set(Protobuf_PROTOC_EXECUTABLE protoc)
 set(CMAKE_DEBUG_POSTFIX d)
 set(PROJECT_NAMESPACE IEEE2654)
 add_library(ieee2654_compiler_flags INTERFACE)

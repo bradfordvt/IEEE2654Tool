@@ -165,6 +165,7 @@ private:
 	translator_inject_api tiapi;
 	translator_debug_api tdapi;
 	translator_command_api tcapi;
+#if 0
 	void* tlib_handle;
 	void* dlib_handle;
 	void* ilib_handle;
@@ -177,6 +178,7 @@ private:
 	debug_instance* d_inst;
 	inject_instance* i_inst;
 	command_instance* c_inst;
+#endif
 	// ClientAPI* client_p;
 	TranslatorRep trep;
 

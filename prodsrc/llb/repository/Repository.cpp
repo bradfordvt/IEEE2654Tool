@@ -95,9 +95,13 @@ bool Repository::purge_repository() {
 }
 
 Repository::Repository() {
+	SWDEBUGP1( 5, Verify::REPOSITORY, "Repository::Repository");
+	SWDEBUG1( 5, Verify::TRACE, "Repository::Repository");
 }
 
 Repository::~Repository() {
+	SWDEBUGP1( 5, Verify::REPOSITORY, "Repository::~Repository");
+	SWDEBUG1( 5, Verify::TRACE, "Repository::~Repository");
 	purge_repository();
 	delete Repository::repository;
 }
@@ -536,6 +540,7 @@ Translator* Repository::set_TopModule(TopModuleRep& tmr) {
 	SWDEBUG2( 5, Verify::TRACE, "Repository::set_TopModule",
 			" TopModuleRep& ");
 	tmrep = tmr;
+	return find_translator_by_uid(tmrep.get_translator());
 }
 
 Translator* Repository::get_TopModule() {

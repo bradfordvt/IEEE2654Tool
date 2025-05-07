@@ -52,10 +52,7 @@ void* InjectLibraryFactory::create_handle(const char* lib_basename) {
     using std::cout;
     using std::cerr;
 
-    // cout << "C++ dlopen demo\n\n";
-
     // open the library
-    // cout << "Opening " << lib_basename << ".so...\n";
     PathManager *pm_p = PathManager::get_PathManager();
     const std::vector<std::string>& pi_path = pm_p->get_plugin_search_path();
     std::string s;
@@ -78,7 +75,6 @@ void* InjectLibraryFactory::create_handle(const char* lib_basename) {
 	    cerr << "InjectLibraryFactory: not found!" << std::endl;
 	    return NULL;
     }
-    cerr << "handle created successfully at: " << handle << "\n";
     return handle;
 }
 
@@ -103,7 +99,6 @@ struct inject_library_api* InjectLibraryFactory::get_api(void* handle) {
     using std::cerr;
 
     // load the symbol
-    // cout << "Loading symbol ila...\n";
     typedef struct inject_library_api*  (*fn)();
 
     // reset errors
@@ -115,7 +110,6 @@ struct inject_library_api* InjectLibraryFactory::get_api(void* handle) {
         dlclose(handle);
         return NULL;
     }
-    // cout << "Calling get_inject_library_api...\n";
     struct inject_library_api* ila = (*f)();
     return ila;
 }

@@ -40,6 +40,7 @@ static const char __version__[] = "0.0.1";
 #include "transform_library_wrapper.h"
 
 #include "factory/TransformLibraryFactory.hpp"
+#include "builder/PathManager.hpp"
 #include "debug/Verify.hpp"
 
 
@@ -51,21 +52,28 @@ void* TransformLibraryFactory::create_handle(const char* lib_basename) {
     using std::cout;
     using std::cerr;
 
-    // cout << "C++ dlopen demo\n\n";
-
     // open the library
-    // cout << "Opening " << lib_basename << ".so...\n";
-    std::string s("./plugins/lib");
-    s += lib_basename;
-    s += ".so";
-    // cerr << "s = " << s << "\n";
-    void* handle = dlopen(s.c_str(), RTLD_LAZY);
+    PathManager *pm_p = PathManager::get_PathManager();
+    const std::vector<std::string>& pi_path = pm_p->get_plugin_search_path();
+    std::string s;
+    void* handle = NULL;
+    auto b = begin(pi_path);
+    for( ; b != end(pi_path); b++) {
+	    s = *b;
+	    s += "/lib";
+	    s += lib_basename;
+	    s += ".so";
+	    handle = dlopen(s.c_str(), RTLD_LAZY);
 
-    if (!handle) {
-        cerr << "Cannot open library: " << dlerror() << '\n';
-        return NULL;
+	    if (!handle) {
+		cerr << "Cannot open library: " << dlerror() << '\n';
+		continue;
+	    }
     }
-    // cerr << "handle created successfully at: " << handle << "\n";
+    if(!handle) {
+	    cerr << "TransformLibraryFactory: not found!" << std::endl;
+	    return NULL;
+    }
     return handle;
 }
 
@@ -90,7 +98,6 @@ struct transform_library_api* TransformLibraryFactory::get_api(void* handle) {
     using std::cerr;
 
     // load the symbol
-    // cout << "Loading symbol tla...\n";
     typedef struct transform_library_api*  (*fn)();
 
     // reset errors
@@ -102,7 +109,6 @@ struct transform_library_api* TransformLibraryFactory::get_api(void* handle) {
         dlclose(handle);
         return NULL;
     }
-    // cout << "Calling get_transform_library_api...\n";
     struct transform_library_api* tla = (*f)();
     return tla;
 }

@@ -218,13 +218,13 @@ inline unsigned Verify::getTraceValue( ) const
 	return trace;
 }
 
-#include "api/translator_api.h"
+// #include "api/translator_api.h"
 
 /************************************************************************
  *	The SwDebug class provides a simple mechanism to permit the
  *	programmer to log debugging information, and optionally to trace
  *	the entry and exit of a particular function.  It is derived from
- *	the Verify base class.
+ *	thie Verify base class.
  *
  *	The class uses two data elements, trace, which is used by the
  *	constructor and destructor to enable the tracing of function
@@ -259,7 +259,7 @@ private:
     std::string		funcname;
 };
 
-#include "api/inject_library_api.h"
+// #include "api/inject_library_api.h"
 
 /************************************************************************
  *	The SwDebugLib class provides a simple mechanism to permit the
