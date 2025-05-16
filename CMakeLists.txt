@@ -32,8 +32,8 @@ set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 # )
 # endif()
 add_compile_options(
-	"$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
-	"$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+	"$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-DMULTI_THREAD>>"
+	"$<${msvc_cxx}:$<BUILD_INTERFACE:-W3;-DMULTI_THREAD>>"
 	"$<$<CONFIG:DEBUG>:-O0;-g3;-ggdb;-DUSE_SWDEBUG>"
 )
 message(STATUS "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}")

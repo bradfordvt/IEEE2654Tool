@@ -30,7 +30,6 @@ typedef struct
 {
    int argc;
    std::vector<std::string> argv;
-   // const wchar_t **argv;
 } CMD_LINE_STRUCT;
 
 class PythonInterpreter {
@@ -40,9 +39,7 @@ public:
 	int run(const std::string& filename, std::vector<std::string> argv);
 
 private:
-	static void *ThreadProc( void *data );
 	static int run_module(CMD_LINE_STRUCT* arg);
-	static void *applyProc( void *data );
 };
 
 #endif /* INCLUDE_DSL_PYTHONINTERPRETER_HPP_ */

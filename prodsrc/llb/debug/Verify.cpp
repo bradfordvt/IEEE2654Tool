@@ -67,6 +67,22 @@ Verify::Verify( ) : trace(0) {
 		// Verify::createAppInfo( );
 	}
 	incRefCnt();
+#ifdef MULTI_THREAD
+	std::map<pthread_t, struct thread_data*>::iterator it;
+	pthread_t my_thread = pthread_self();
+	it = thread_data_map.find(my_thread);
+	if(it == thread_data_map.end()) { // not found
+		std::cerr << "=========================Creating a new thread_data entry." << std::endl;
+		// create new data for this thread
+		struct thread_data *my_data_p = new struct thread_data;
+		if(my_data_p == NULL)
+		{
+			std::cerr << "**************************my_data_p == NULL" << std::endl;
+		}
+		my_data_p->debug_level = 0;
+		thread_data_map[my_thread] = my_data_p;
+	}
+#endif
 	incCurrentLevel();
 	level = getCurrentLevel();
 }
@@ -79,6 +95,14 @@ Verify::~Verify( )
 		// Verify::deleteAppInfo( );
 	}
 	decCurrentLevel( );
+#ifdef MULTI_THREAD
+	if(getCurrentLevel() == 0)
+	{
+		pthread_t my_thread = pthread_self();
+		delete thread_data_map[my_thread];
+		thread_data_map.erase(my_thread);
+	}
+#endif
 }
 
 /**********************************************************************
@@ -144,7 +168,55 @@ int Verify::initValue( const std::string& init_thresh )
 	return ret_val;
 }
 
-#ifndef RW_MULTI_THREAD
+#ifndef MULTI_THREAD
+/**********************************************************************
+ *	getCurrentLevel( )	Get the current debug level
+ *
+ *	Returns:	The current debug level
+ *********************************************************************
+ */
+
+unsigned Verify::getCurrentLevel( ) const
+{
+	return debug_level;
+}
+
+void Verify::incCurrentLevel( )
+{
+        debug_level++;
+}
+
+void Verify::decCurrentLevel( )
+{
+        --debug_level;
+}
+#else
+int     Verify::getRefCnt( ) const { return init_count; }
+void    Verify::incRefCnt( ) { init_count++; }
+void    Verify::decRefCnt( ) { --init_count; }
+
+unsigned Verify::getCurrentLevel( ) const
+{
+	pthread_t my_thread = pthread_self();
+	struct thread_data *my_data_p = thread_data_map[my_thread];
+	return my_data_p->debug_level;
+}
+
+void Verify::incCurrentLevel( )
+{
+	pthread_t my_thread = pthread_self();
+	struct thread_data *my_data_p = thread_data_map[my_thread];
+	(my_data_p->debug_level)++;
+}
+
+void Verify::decCurrentLevel( )
+{
+	pthread_t my_thread = pthread_self();
+	struct thread_data *my_data_p = thread_data_map[my_thread];
+	--(my_data_p->debug_level);
+}
+#endif
+
 /**********************************************************************
  *	setValue( )	Specifies the value of a debugging type	as specified
  *			by the input arguments.
@@ -207,7 +279,6 @@ int Verify::setAllValues( int ival )
 
 	return ival;
 }
-#endif
 
 /**********************************************************************
  *	setTrace( )	Specify whether function tracing is activated
@@ -294,20 +365,21 @@ const char* Verify::getSource( ) const
  *	Returns:	VOID
  *********************************************************************
  */
-#ifdef DEBUG_DUMP
+// #ifdef DEBUG_DUMP
 void Verify::dump( std::ostream& os ) const
 {
-	DebugTypes		i;
+	// DebugTypes		i;
+	int		i;
 
 	os << "Verify(this=" << (void*)this << ")" << std::endl;
 	os << "  level = " << level << std::endl;
 	os << "  trace = " << trace << std::endl;
 
 	os << "  TypeInfo:" << std::endl;
-	for ( i = Verify::APP; i < NUM_2654_DEBUG_TYPES; i++ )
-	    os << "    [" << (int)i << "] " << getName( i )
-			<< " = " << getValue( i ) << std::endl;
+	for ( i = Verify::APP; i < NUM_2654_DEBUG_TYPES; i++)
+	    os << "    [" << (int)i << "] " << getName( (DebugTypes)i )
+			<< " = " << getValue( (DebugTypes)i ) << std::endl;
 
 	return;
 }
-#endif
+// #endif

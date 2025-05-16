@@ -42,76 +42,16 @@ static const char __version__[] = "0.0.1";
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <queue>
 #include <locale>
 #include <iostream>
 #include <sstream>
 #include <bitset>
 
-#ifdef WIN32	// Windows includes
-#include <Windows.h>
-#include <process.h>
-#define sleep(x) Sleep(1000*x)
-HANDLE handle;
-HANDLE apply_handle;
-#else	// POSIX includes
-#include <pthread.h>
-pthread_t mythread;
-pthread_t apply_thread;
-#endif
-
 #include "debug/Verify.hpp"
 
-struct reqargs {
-	/* const */ char *target;
-	size_t len;
-	uint8_t *message;
-};
-
-template <typename T>
-class ThreadSafeQueue {
-    std::mutex mutex;
-    std::condition_variable cond_var;
-    std::queue<T> queue;
-
-public:
-    void push(T item) {
-        {
-            std::lock_guard lock(mutex);
-            queue.push(item);
-        }
-
-        cond_var.notify_one();
-    }
-
-    T& front() {
-        std::unique_lock lock(mutex);
-        cond_var.wait(lock, [&]{ return !queue.empty(); });
-        return queue.front();
-    }
-
-    void pop() {
-        std::lock_guard lock(mutex);
-        queue.pop();
-    }
-
-    bool empty() const {
-	    return queue.empty();
-    }
-};
-
-ThreadSafeQueue<struct reqargs*> req_queue;
-ThreadSafeQueue<struct reqargs*> resp_queue;
-std::condition_variable cond_var_run;
-std::mutex mutex_run;
-static int transaction_done = 0;
 static PyObject *self_obj = NULL;
 static PyObject *response_callback = NULL;
 static int my_errno;
-static int apply_flag = 0;
 static long timeout = 0L;
 
 /*
@@ -397,7 +337,6 @@ PyInit_DSL(void) {
 PythonInterpreter::PythonInterpreter() {
 	SWDEBUGP1( 5, Verify::DSL, "PythonInterpreter::PythonInterpreter");
 	SWDEBUG1( 5, Verify::TRACE, "PythonInterpreter::PythonInterpreter");
-	apply_flag = 0;
 }
 
 PythonInterpreter::~PythonInterpreter() {
@@ -417,79 +356,31 @@ int PythonInterpreter::run(const std::string& filename, std::vector<std::string>
 	// cmd.argv[0] = filename.c_str();
 	// cmd.argv[1] = func.c_str();
 	for(i = 0; i < argv.size(); i++) {
-		if(i == 0) {
-			cmd.argv.push_back(argv[i]);
-		}
-		else {
-			cmd.argv.push_back(argv[i]);
-		}
+		cmd.argv.push_back(argv[i]);
 	}
 	cmd.argc = cmd.argv.size();
 
-	// Create a thread
-	apply_flag = 1;
-#ifdef WIN32
-	// Windows code
-	// apply_handle = (HANDLE) _beginthread( PythonInterpreter::applyProc,0,&cmd);
-	handle = (HANDLE) _beginthread( PythonInterpreter::ThreadProc,0,&cmd);
-#else
-	// POSIX code
-	// std::cerr << "Starting applyProc" << std::endl;
-	// pthread_create( &apply_thread, NULL, PythonInterpreter::applyProc, (void*)&cmd );
-	// std::cerr << "Starting ThreadProc" << std::endl;
-	pthread_create( &mythread, NULL, PythonInterpreter::ThreadProc, (void*)&cmd );
-#endif
-
-	// Join and wait for the created thread to complete...
-#ifdef WIN32
-	// Windows code
-	WaitForSingleObject(handle,INFINITE);
-	apply_flag = 0;
-	// WaitForSingleObject(apply_handle,INFINITE);
-#else
-	// POSIX code
-	// std::cerr << "Joining ThreadProc" << std::endl;
-	pthread_join(mythread, NULL);
-	apply_flag = 0;
-	// std::cerr << "Joining applyProc" << std::endl;
-	// pthread_join(apply_thread, NULL);
-#endif
-
-	// delete [] wargv;
-	// delete [] cmd.argv;
-	return 0;
-}
-
-void *PythonInterpreter::ThreadProc( void *data )
-{
-	SWDEBUGP2( 5, Verify::DSL, "PythonInterpreter::ThreadProc",
-                        " void*" );
-	SWDEBUG2( 5, Verify::TRACE, "PythonInterpreter::ThreadProc",
-                        " void*" );
-	// PyObject *pName, *pModule, *pDict, *pFunc;
-	// PyThreadState *mainThreadState, *myThreadState, *tempState;
-	// PyInterpreterState *mainInterpreterState;
-	int i;
+	int j;
 	FILE* file = nullptr;
 
 	// std::cerr << "Creating argv" << std::endl;
-	CMD_LINE_STRUCT *arg = (CMD_LINE_STRUCT*)data;
+	CMD_LINE_STRUCT *arg = &cmd;
 	// std::wstring wfilename(arg->argv[0]);
 	// std::string filename(wfilename.begin(), wfilename.end());
 	const std::wstring **wargv = new const std::wstring*[arg->argc + 1];
-	const wchar_t **argv = new const wchar_t*[arg->argc + 1];
-	for(i = 0; i < arg->argc; i++) {
+	const wchar_t **argv2 = new const wchar_t*[arg->argc + 1];
+	for(j = 0; j < arg->argc; j++) {
 		std::wostringstream conv;
-		std::string s(arg->argv[i]);
+		std::string s(arg->argv[j]);
 		conv << s.c_str();
-		wargv[i] = new std::wstring(conv.str());
-		// std::cerr << "wargv[" << i << "] = " << *(wargv[i]) << std::endl;
+		wargv[j] = new std::wstring(conv.str());
+		// std::cerr << "wargv[" << j << "] = " << *(wargv[j]) << std::endl;
 	}
-	wargv[i] = nullptr;
-	for(i = 0; i < arg->argc; i++) {
-		argv[i] = wargv[i]->c_str();
+	wargv[j] = nullptr;
+	for(j = 0; j < arg->argc; j++) {
+		argv2[j] = wargv[j]->c_str();
 	}
-	argv[i] = nullptr;
+	argv2[j] = nullptr;
 
 	PyImport_AppendInittab("IEEE2654DSL", &PyInit_DSL);
 	// Py_SetProgramName(wargv[0]->c_str());
@@ -510,14 +401,18 @@ void *PythonInterpreter::ThreadProc( void *data )
 	}
 	for( auto iter = pypathv.begin(); iter != pypathv.end(); iter++) {
 		std::string pfullpath = *iter + pm_p->get_path_separator() + arg->argv[0];
+#if 1
 		PyObject *obj = Py_BuildValue("s", pfullpath.c_str()); 
 		file = _Py_fopen_obj(obj, "r+");
+#else
+		file = fopen(pfullpath.c_str(), "r");
+#endif
 		if(file != NULL) break;
 	}
 	// std::string dstr1 = "print(sys.modules[__name__].__dict__)";
 	// std::cerr << "dstr1 = " << dstr1 << std::endl;
 	// PyRun_SimpleString(dstr1.c_str());
-	PySys_SetArgv(arg->argc, const_cast<wchar_t**>(argv));
+	PySys_SetArgv(arg->argc, const_cast<wchar_t**>(argv2));
 	// Don't use module name with .py extension added
 	std::string module_name(arg->argv[0].begin(), arg->argv[0].end()-3);
 	// std::cerr << "module_name = " << module_name.c_str() << std::endl;
@@ -532,7 +427,28 @@ void *PythonInterpreter::ThreadProc( void *data )
 		// std::cerr << "dstr = " << dstr << std::endl;
 		// PyRun_SimpleString(dstr.c_str());
 		if(file != NULL) {
-			PyRun_SimpleFile(file, arg->argv[0].c_str());
+#if 1
+			// std::cerr << "Calling PyRun_SimpleFile..." << std::endl;
+			int r = PyRun_SimpleFile(file, arg->argv[0].c_str());
+			// std::cerr << "r = " << r << std::endl;
+			// std::cerr << "Returned from PyRun_SimpleFile..." << std::endl;
+#else
+			// Execute the Python file
+			PyObject *result = PyRun_File(file, arg->argv[0].c_str(), Py_file_input, Py_None, Py_None);
+
+		    	// Check for exceptions
+			if (PyErr_Occurred()) {
+				if (PyErr_ExceptionMatches(PyExc_SystemExit)) {
+				    // Handle SystemExit
+				    PyErr_Clear();
+				    std::cerr << "SystemExit caught, handling it gracefully." << std::endl;
+				} else {
+				    // Print and clear other exceptions
+				    PyErr_Print();
+				}
+			}
+
+#endif
 			fclose(file);
 		}
 		else {
@@ -543,96 +459,9 @@ void *PythonInterpreter::ThreadProc( void *data )
 		// std::cerr << "Finalizing..." << std::endl;
 		Py_Finalize();
 	}
-	delete [] argv;
+	delete [] argv2;
 	delete [] wargv;
 	// std::cerr << "Returning from ThreadProc()" << std::endl;
-	pthread_exit(NULL);
-}
-
-void *PythonInterpreter::applyProc( void* /*data*/ )
-{
-	SWDEBUGP2( 5, Verify::DSL, "PythonInterpreter::applyProc",
-                        " void*" );
-	SWDEBUG2( 5, Verify::TRACE, "PythonInterpreter::applyProc",
-                        " void*" );
-	int ret = -1;
-	my_errno = -1;
-	// std::cerr << "Entering PythonInterpreter::applyProc()" << std::endl;
-	while(apply_flag) {
-		// std::cerr << "Waiting for queue data in PythonInterpreter::applyProc()" << std::endl;
-		struct reqargs *reqa = req_queue.front(); // no copy, just a reference
-		// std::cerr << "Obtaining CommandBus Singleton instance." << std::endl;
-		// Obtain the CommandBus object to handle commands
-		CommandBus *cb_p = CommandBus::get_command_bus(); // Factory method
-
-		if(cb_p != NULL) {
-			// std::cerr << "Calling CommandBus::send_command_request()" << std::endl;
-			ret = cb_p->send_command_request(::dsl_send_command_response, reqa->target, reqa->len, reqa->message);
-			free(reqa->target);
-			free(reqa->message);
-			free(reqa);
-			req_queue.pop();
-		}
-		if(ret == 0) {
-			struct reqargs *respa = resp_queue.front();
-			if(response_callback) {
-				/* Make sure we own the GIL */
-				PyGILState_STATE state = PyGILState_Ensure();
-
-				PyObject *target_p = PyUnicode_InternFromString(respa->target);
-				PyObject *len_p = PyLong_FromSize_t(respa->len);
-				// PyObject *message_p = PyUnicode_InternFromString(message);
-				// sequence of uint8_t values representing UTF-8 encoded string
-				// PyObject *message_p = PyUnicode_DecodeUTF8((const char*)respa->message, respa->len, NULL);
-				PyObject *message_p = PyBytes_FromStringAndSize((const char*)respa->message, respa->len);
-				free(respa->target);
-				free(respa->message);
-				free(respa);
-				resp_queue.pop();
-				PyObject* args = PyTuple_Pack(4, self_obj, target_p, len_p, message_p);
-				PyObject *kwargs = PyDict_New();
-				PyObject *result = PyObject_Call(response_callback, args, kwargs);
-				response_callback = NULL;
-				Py_DECREF(target_p);
-				Py_DECREF(len_p);
-				Py_DECREF(message_p);
-				Py_DECREF(args);
-				if (!PyLong_Check(result))
-				{
-					// std::cerr << "applyProc(): callable didn't return a long" << std::endl;
-					my_errno = -2;
-					break;
-
-				}
-				if (PyErr_Occurred())
-				{
-					PyErr_Print();
-					Py_XDECREF(result);
-					PyGILState_Release(state);
-					my_errno = -3;
-					break;
-				}
-				ret = int(PyLong_AsLong(result));
-				Py_XDECREF(result);
-				PyGILState_Release(state);
-				my_errno = ret;
-				break;
-			}
-			else {
-				// std::cerr << "applyProc()(): response_callback is not set." << std::endl;
-				my_errno = -4;
-				break;
-			}
-		}
-		else {
-			// std::cerr << "applyProc()(): call to dsl_send_command_request() failed!" << std::endl;
-			my_errno = -5;
-			break;
-		}
-	}
-	std::lock_guard lock(mutex_run);
-	transaction_done = 0;
-	cond_var_run.notify_one();
-	pthread_exit(NULL);
+	return(0);
 }
 

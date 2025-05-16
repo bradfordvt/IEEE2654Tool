@@ -62,11 +62,15 @@ Verify::type_values		Verify::type_info[NUM_2654_DEBUG_TYPES] =
 	"DEBUG", 0,		// for debug utilities checking
 };
 
+#ifndef MULTI_THREAD
 unsigned		Verify::debug_level = 0;
 // List<Verify::type_mods> *	Verify::mod_stack = 0;
 
 // AppInfo *		Verify::app_info_p = 0;
 // OutMesgPort *		Verify::out_port_p = 0;
+#else
+std::map<pthread_t, struct Verify::thread_data*> Verify::thread_data_map;
+#endif
 
 int			Verify::init_count = 0;
 

@@ -115,7 +115,8 @@ int main(int argc, char **argv) {
 		trace_init.setValue( TRACE_INIT_LEVEL, Verify::TRACE );
 		SwDebug trace( 5, Verify::TRACE, Func_name );
 		// Batch mode
-		return doBatchMode(argc, argv);
+		int ret = doBatchMode(argc, argv);
+		return ret;
 	}
 	else {
 		// GUI mode

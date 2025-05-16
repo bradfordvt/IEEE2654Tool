@@ -138,13 +138,13 @@ void SwDebug::log( unsigned threshold,
  *	Returns:	VOID
  *********************************************************************
  */
-# ifdef DEBUG_DUMP
+// # ifdef DEBUG_DUMP
 void SwDebug::dump( std::ostream& os ) const
 {
 	os << "SwDebug.";
 	Verify::dump( os );
-	os << "  function name = " << funcname << endl;
+	os << "  function name = " << funcname << std::endl;
 
 	return;
 }
-# endif
+// # endif
