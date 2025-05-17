@@ -31,12 +31,14 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ieee2654_compiler_flags)
 message(STATUS "***************** Python_VERSION = ${Python_VERSION}")
 message(STATUS "***************** Python_VERSION_MAJOR = ${Python_VERSION_MAJOR}")
 message(STATUS "***************** Python_VERSION_MINOR = ${Python_VERSION_MINOR}")
+message(STATUS "***************** /usr/include/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   ../prodsrc/include
   # /usr/include/python3.10
-  /usr/include/python3.12
+  # /usr/include/python3.12
+  /usr/include/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}
   # /usr/include/${Python_VERSION}
   ${Python3_INCLUDE_DIRS}
   )
