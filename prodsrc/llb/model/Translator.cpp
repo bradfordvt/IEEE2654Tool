@@ -78,13 +78,11 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 			tla = tlf.get_api(tlib_handle);
 			if(tla == NULL) {
 				// TODO - Print error message to logger
-				swtrace.log(1, Verify::MODEL, "tla == NULL error!");
 				__logger(LOG_TYPE::ERROR, "Translator::Translator: tla == NULL");
 			}
 		}
 		else {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "tlib_handle == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: tlib_handle == NULL");
 		}
 	}
@@ -97,12 +95,10 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 		tlw_p = new TransformLibraryWrapper(trep.get_translator_uid(), trep.get_TransformLibraryRep());
 		if(tlw_p == NULL) {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "tlw_p == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: tlw_p == NULL");
 		}
 		if(!tlw_p->get_sanity()) {
 			// TODO - print error message to logger
-			swtrace.log(1, Verify::MODEL, "tlw_p->get_sanity() failed!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: !tlw_p->get_sanity())");
 		}
 		if(tlw_p->open() != 0) {
@@ -126,13 +122,11 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 			dla = dlf.get_api(dlib_handle);
 			if(dla == NULL) {
 				// TODO - Print error message to logger
-				swtrace.log(1, Verify::MODEL, "dla == NULL error!");
 				__logger(LOG_TYPE::ERROR, "Translator::Translator: dla == NULL");
 			}
 		}
 		else {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "dlib_handle == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: dlib_handle == NULL");
 		}
 	}
@@ -145,12 +139,10 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 		dlw_p = new DebugLibraryWrapper(trep.get_translator_uid(), trep.get_DebugLibraryRep());
 		if(dlw_p == NULL) {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "dlw_p == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: dlw_p == NULL");
 		}
 		if(!dlw_p->get_sanity()) {
 			// TODO - print error message to logger
-			swtrace.log(1, Verify::MODEL, "dlw_p->get_sanity() failed!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: !dlw_p->get_sanity())");
 		}
 		if(dlw_p->open() != 0) {
@@ -170,12 +162,10 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 		ilw_p = new InjectLibraryWrapper(trep.get_translator_uid(), trep.get_InjectLibraryRep());
 		if(ilw_p == NULL) {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "ilw_p == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: ilw_p == NULL");
 		}
 		if(!ilw_p->get_sanity()) {
 			// TODO - print error message to logger
-			swtrace.log(1, Verify::MODEL, "ilw_p->get_sanity() failed!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: !ilw_p->get_sanity())");
 		}
 		if(ilw_p->open() != 0) {
@@ -195,12 +185,10 @@ Translator::Translator(const TranslatorRep& tr) : trep(tr), ci_p(NULL), ii_p(NUL
 		clw_p = new CommandLibraryWrapper(trep.get_translator_uid(), trep.get_CommandLibraryRep());
 		if(clw_p == NULL) {
 			// TODO - Print error message to logger
-			swtrace.log(1, Verify::MODEL, "clw_p == NULL error!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: clw_p == NULL");
 		}
 		if(!clw_p->get_sanity()) {
 			// TODO - print error message to logger
-			swtrace.log(5, Verify::TRACE, "clw_p->get_sanity() failed!");
 			__logger(LOG_TYPE::ERROR, "Translator::Translator: !clw_p->get_sanity())");
 		}
 		if(clw_p->open() != 0) {
